@@ -1,0 +1,76 @@
+<div id="main" data-lift="surround?with=default-template;at=content">
+  <h2>Tutors</h2>
+
+  <form>
+    <h3 data-lift="Loc.tutor-createNewTutor">Create New Tutor</h3>
+    <ul>
+      <li>
+        <label for="first-name" data-lift="Loc.general-firstName">First Name</label>
+        <input id="first-name" type="text">
+      </li>
+      <li>
+        <label for="last-name" data-lift="Loc.general-lastName">Last Name</label>
+        <input id="last-name" type="text">
+      </li>
+      <li>
+        <label for="email" data-lift="Loc.general-email">Email</label>
+        <input id="email" type="text">
+      </li>
+      <li>
+        <label for="phone" data-lift="Loc.general-phone">Phone</label>
+        <input id="phone" type="text">
+      </li>
+    </ul>
+    <footer>
+      <button id="add-tutor">Add Tutor</button>
+    </footer>
+  </form>
+  
+  <section>
+    <h3 data-lift="Loc.tutor-currentTutors">Current Tutors</h3>
+
+    <table id="tutor-list">
+      <thead>
+        <tr>
+          <th data-lift="Loc.general-name">Name</th>
+          <th data-lift="Loc.general-email">Email</th>
+          <th data-lift="Loc.user-phone">Phone</th>
+          <th data-lift="Loc.general-operations">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr class="tutor-row">
+          <td class="name">
+            <span class="first-name">Mike</span>
+            <span class="last-name">Rivera</span>
+          </td>
+          <td class="email">rivera.mj@gmail.com</td>
+          <td class="phone">404-123-4567</td>
+          <td class="actions">
+            <a class="edit-tutor">
+              <span data-lift="Loc.replace-tutor-editTutor">Edit Tutor</span>
+            </a>
+              <button class="delete-tutor">
+                <span data-lift="Loc.replace-tutor-deleteTutor">Delete Tutor</span>
+              </button>
+            </td>
+          </tr>
+          <tr class="clearable tutor-row">
+            <td>Louis ReFour III</td>
+            <td>louis@gmail.com</td>
+            <td>770-123-4567</td>
+            <td class="actions">
+            <a class="edit-tutor">
+              <span data-lift="Loc.replace-tutor-editTutor">Edit Tutor</span>
+            </a>
+              <button class="delete-tutor">
+                <span data-lift="Loc.replace-tutor-deleteTutor">Delete Tutor</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+  </div>

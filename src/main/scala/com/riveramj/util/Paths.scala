@@ -7,9 +7,11 @@ import net.liftweb.http.RedirectResponse
 
 object Paths {
   // Roots.
-  val index          = Menu.i("index")   / "index" 
+  val index  = Menu.i("index")   / "index" 
+  val tutors  = Menu.i("tutors")   / "tutors" 
 
   def siteMap = SiteMap(
-    index
+    index,
+    tutors
   )
 }
