@@ -5,13 +5,13 @@ import net.liftweb.sitemap.Loc.EarlyResponse
 import net.liftweb.common._
 import net.liftweb.http.RedirectResponse
 
+import com.riveramj.snippet.Tutors
+
 object Paths {
-  // Roots.
   val index  = Menu.i("index")   / "index" 
-  val tutors  = Menu.i("tutors")   / "tutors" 
 
   def siteMap = SiteMap(
     index,
-    tutors
+    Tutors.menu
   )
 }

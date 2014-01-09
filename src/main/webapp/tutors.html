@@ -1,7 +1,7 @@
 <div id="main" data-lift="surround?with=default-template;at=content">
   <h2>Tutors</h2>
 
-  <form>
+  <form data-lift="tutors.create">
     <h3 data-lift="Loc.tutor-createNewTutor">Create New Tutor</h3>
     <ul>
       <li>
@@ -22,35 +22,36 @@
       </li>
     </ul>
     <footer>
-      <button id="add-tutor">Add Tutor</button>
+      <button type="submit" id="add-tutor">Add Tutor</button>
     </footer>
   </form>
   
   <section>
     <h3 data-lift="Loc.tutor-currentTutors">Current Tutors</h3>
+    
+    <div data-lift=tutors.list>
+      <table id="tutor-list">
+        <thead>
+          <tr>
+            <th data-lift="Loc.general-name">Name</th>
+            <th data-lift="Loc.general-email">Email</th>
+            <th data-lift="Loc.user-phone">Phone</th>
+            <th data-lift="Loc.general-operations">Actions</th>
+          </tr>
+        </thead>
 
-    <table id="tutor-list">
-      <thead>
-        <tr>
-          <th data-lift="Loc.general-name">Name</th>
-          <th data-lift="Loc.general-email">Email</th>
-          <th data-lift="Loc.user-phone">Phone</th>
-          <th data-lift="Loc.general-operations">Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr class="tutor-row">
-          <td class="name">
-            <span class="first-name">Mike</span>
-            <span class="last-name">Rivera</span>
-          </td>
-          <td class="email">rivera.mj@gmail.com</td>
-          <td class="phone">404-123-4567</td>
-          <td class="actions">
-            <a class="edit-tutor">
-              <span data-lift="Loc.replace-tutor-editTutor">Edit Tutor</span>
-            </a>
+        <tbody>
+          <tr class="tutor-row">
+            <td class="name">
+              <span class="first-name">Mike</span>
+              <span class="last-name">Rivera</span>
+            </td>
+            <td class="email">rivera.mj@gmail.com</td>
+            <td class="phone">404-123-4567</td>
+            <td class="actions">
+              <a class="edit-tutor">
+                <span data-lift="Loc.replace-tutor-editTutor">Edit Tutor</span>
+              </a>
               <button class="delete-tutor">
                 <span data-lift="Loc.replace-tutor-deleteTutor">Delete Tutor</span>
               </button>
@@ -61,9 +62,9 @@
             <td>louis@gmail.com</td>
             <td>770-123-4567</td>
             <td class="actions">
-            <a class="edit-tutor">
-              <span data-lift="Loc.replace-tutor-editTutor">Edit Tutor</span>
-            </a>
+              <a class="edit-tutor">
+                <span data-lift="Loc.replace-tutor-editTutor">Edit Tutor</span>
+              </a>
               <button class="delete-tutor">
                 <span data-lift="Loc.replace-tutor-deleteTutor">Delete Tutor</span>
               </button>
@@ -71,6 +72,7 @@
           </tr>
         </tbody>
       </table>
+    </div>
 
-    </section>
-  </div>
+  </section>
+</div>
