@@ -7,8 +7,7 @@ case class Tutor(
   _id: ObjectId,
   firstName: String,
   lastName: String,
-  tutorId: String,
-  email: Option[String] = None,
+  email: String,
   phone: Option[String] = None
 )
   extends MongoDocument[Tutor] {

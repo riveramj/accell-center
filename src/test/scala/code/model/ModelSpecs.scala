@@ -23,12 +23,11 @@ class ModelSpecs extends Specification {
     studentId = student1Id
   )
 
-  val tutor1Id = "001"
   val tutor1 = Tutor(
     _id = ObjectId.get,
     firstName = "Mike",
     lastName = "Rivera",
-    tutorId = tutor1Id
+    email = "rivera.mj@gmail.com"
   )
 
   val studentEvaluation1 = StudentEvaluation(
@@ -71,11 +70,11 @@ class ModelSpecs extends Specification {
       tutor1.save
       Tutor.find(tutor1._id).get must beEqualTo(tutor1)
     }
-    "find unique tutor by tutorId" in {
-      val tutor = Tutor.findAll("tutorId" -> tutor1Id)
+    "find unique tutor by email" in {
+      val tutor = Tutor.findAll("email" -> tutor1.email)
     
       tutor.length must beEqualTo(1)
-      tutor.head.tutorId must beEqualTo(tutor1Id)
+      tutor.head.email must beEqualTo(tutor1.email)
     }
     "delete tutor by id" in {
       val tutor = Tutor.find(tutor1._id).get
