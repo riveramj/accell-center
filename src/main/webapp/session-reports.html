@@ -1,7 +1,7 @@
 <div id="main" data-lift="surround?with=default-template;at=content">
   <h2>Session Reports</h2>
 
-  <form>
+  <form data-lift="sessionReports.create">
     <h3 data-lift="Loc.student-createNewStudent">Create New Session Report</h3>
     <ul>
       <li>
@@ -12,8 +12,8 @@
         </select>
       </li>
       <li>
-        <label for="student-presence" data-lift="Loc.general-studentPresent">Student Present</label> 
-        <input type="checkbox" value="present" id="student-presence">
+        <label for="student-present" data-lift="Loc.general-studentPresent">Student Present</label> 
+        <input type="checkbox" value="present" id="student-present">
       </li>
       <li>
         <label for="tutor" data-lift="Loc.general-tutor">Tutor</label>
@@ -28,7 +28,7 @@
       </li>
       <li>
         <label for="semester" data-lift="Loc.general-semester">Semester</label> 
-        <select>
+        <select id="semester">
           <option>Spring 2014</option>
           <option>Summer 2014</option>
           <option>Fall 2014</option>
@@ -36,7 +36,7 @@
       </li>
       <li>
         <label for="location" data-lift="Loc.general-location">Location</label> 
-        <select>
+        <select id="location">
           <option>City of Refuge</option>
           <option>Other</option>
         </select>
@@ -62,7 +62,7 @@
   <section>
     <h3 data-lift="Loc.general-currentReports">Current Reports</h3>
     
-    <div>
+    <div data-lift="sessionReports.list">
       <table id="reports-list">
         <thead>
           <tr>
