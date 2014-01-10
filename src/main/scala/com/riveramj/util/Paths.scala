@@ -13,6 +13,7 @@ object Paths {
   def siteMap = SiteMap(
     index,
     Tutors.menu,
-    Students.menu
+    Students.menu,
+    SessionReports.menu
   )
 }

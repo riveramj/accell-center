@@ -1,0 +1,108 @@
+<div id="main" data-lift="surround?with=default-template;at=content">
+  <h2>Session Reports</h2>
+
+  <form>
+    <h3 data-lift="Loc.student-createNewStudent">Create New Session Report</h3>
+    <ul>
+      <li>
+        <label for="sudent" data-lift="Loc.general-student">Student</label>
+        <select id="student">
+          <option>Mike Rivera</option>
+          <option>Louis ReFour III</option>
+        </select>
+      </li>
+      <li>
+        <label for="student-presence" data-lift="Loc.general-studentPresent">Student Present</label> 
+        <input type="checkbox" value="present" id="student-presence">
+      </li>
+      <li>
+        <label for="tutor" data-lift="Loc.general-tutor">Tutor</label>
+        <select id="tutor">
+          <option>Mike Rivera</option>
+          <option>Louis ReFour III</option>
+        </select>
+      </li>
+      <li>
+        <label for="student-group" data-lift="Loc.general-studentGroup">Student's Group</label> 
+        <input type="text" id="student-group">
+      </li>
+      <li>
+        <label for="semester" data-lift="Loc.general-semester">Semester</label> 
+        <select>
+          <option>Spring 2014</option>
+          <option>Summer 2014</option>
+          <option>Fall 2014</option>
+        </select>
+      </li>
+      <li>
+        <label for="location" data-lift="Loc.general-location">Location</label> 
+        <select>
+          <option>City of Refuge</option>
+          <option>Other</option>
+        </select>
+      </li>
+      <li>
+        <label for="session-date" data-lift="Loc.general-sessionDate">Session Date</label> 
+        <input type="text" id="session-date">
+      </li>
+      <li>
+        <label for="homework" data-lift="Loc.general-homework">Homework</label> 
+        <input type="text" id="session-date">
+      </li>
+      <li>
+        <label for="material-covered" data-lift="Loc.general-materialCovered">Material Covered</label> 
+        <input type="text" id="material-covered">
+      </li>
+    </ul>
+    <footer>
+      <button type="submit" id="add-report">Add Report</button>
+    </footer>
+  </form>
+  
+  <section>
+    <h3 data-lift="Loc.general-currentReports">Current Reports</h3>
+    
+    <div>
+      <table id="reports-list">
+        <thead>
+          <tr>
+            <th data-lift="Loc.general-studentName">Student Name</th>
+            <th data-lift="Loc.general-tutorName">Tutor Name</th>
+            <th data-lift="Loc.general-semsester">Semeter</th>
+            <th data-lift="Loc.general-operations">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="report-entry">
+            <td class="studentName">Jone Doe</td>
+            <td class="tutorName">Mike Rivera</td>
+            <td class="semseter">Spring 2014</td>
+            <td class="actions">
+              <a class="edit-report">
+                <span data-lift="Loc.replace-student-editReport">Edit Report</span>
+              </a>
+              <button class="delete-report">
+                <span data-lift="Loc.replace-student-deleteReport">Delete Report</span>
+              </button>
+            </td>
+          </tr>
+          <tr class="clearable student-row">
+            <td>Jane Doe</td> 
+            <td>Louis ReFour III</td> 
+            <td>Spring 2014</td>
+            <td class="actions">
+              <a class="edit-report">
+                <span data-lift="Loc.replace-student-editReport">Edit Report</span>
+              </a>
+              <button class="delete-report">
+                <span data-lift="Loc.replace-student-deleteReport">Delete Report</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+</div>
