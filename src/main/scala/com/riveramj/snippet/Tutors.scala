@@ -56,16 +56,32 @@ class Tutors extends Loggable {
   }
 
   def list = {
-
     val tutors = Tutor.findAll
+
+    def deleteTutor(tutorId: ObjectId): JsCmd = {
+      Tutor.find(tutorId).map(_.delete)
+      
+      Tutor.find(tutorId) match {
+        case None =>
+          JsCmds.Run("$('#" + tutorId + "').parent().parent().remove()")
+        case _ => 
+        logger.error(s"couldn't delete tutor with id $tutorId")
+      }
+    }
     
     ClearClearable andThen
     ".tutor-row" #> tutors.map { tutor => 
       ".name *" #> (tutor.firstName + " " + tutor.lastName) &
       ".email *" #> tutor.email &
-      ".phone *" #> tutor.phone
+      ".phone *" #> tutor.phone & 
+      ".delete-tutor [id]" #> tutor._id.toString &
+      ".delete-tutor [onclick]" #> SHtml.ajaxInvoke(() => {
+        JsCmds.Confirm("Are you sure you want to delete the tutor?", {
+          SHtml.ajaxInvoke(() => {
+            deleteTutor(tutor._id)
+          }).cmd
+        })
+      })
     }
-
   }
-
 }
