@@ -23,11 +23,11 @@ class SessionReports extends Loggable {
     var studentId = ""
     var tutorId = ""
     var present = false
-    var semester: Option[Semester] = Empty
-    var location: Option[Location] = Empty
-    var studentGroup: Option[String] = Empty 
-    var homework: Option[String] = Empty 
-    var materialCovered: Option[String] = Empty
+    var semester: Box[Semester] = Empty
+    var location: Box[Location] = Empty
+    var studentGroup: Box[String] = Empty 
+    var homework: Box[String] = Empty 
+    var materialCovered: Box[String] = Empty
     var sessionDate = ""
     var date = ""
 
