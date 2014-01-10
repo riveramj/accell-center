@@ -10,16 +10,31 @@ sealed trait Location
 object Location {
   case object cityOfRefuge extends Location
   case object other extends Location
+
+  lazy val all:Set[Location] = Set(
+    cityOfRefuge,
+    other
+  )
 }
+
 
 sealed trait Semester
 object Semester {
   case object spring2014 extends Semester
   case object summer2014 extends Semester
   case object fall2014   extends Semester
-  case object sprint2015 extends Semester
+  case object spring2015 extends Semester
   case object summer2015 extends Semester
   case object fall2015   extends Semester
+
+  lazy val all:Set[Semester] = Set(
+    spring2014,
+    summer2014,
+    fall2014,
+    spring2015,
+    summer2015,
+    fall2015
+  )
 }
 
 case class SessionReport(
@@ -28,8 +43,8 @@ case class SessionReport(
   tutorId: ObjectId,
   present: Boolean,
   group: Option[String] = None,
-  semester: Semester,
-  location: Location,
+  semester: Option[Semester],
+  location: Option[Location],
   date: Date,
   homework: Option[String] = None,
   materialCovered: Option[String] = None
