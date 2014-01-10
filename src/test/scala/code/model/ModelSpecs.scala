@@ -30,16 +30,16 @@ class ModelSpecs extends Specification {
     email = "rivera.mj@gmail.com"
   )
 
-  val studentEvaluation1 = StudentEvaluation(
+  val sessionReport1 = SessionReport(
     _id = ObjectId.get,
     studentId = student1._id,
     present = true,
     group = Some("2"),
-    semester = "Spring 2014",
+    semester = Semester.spring2014,
     location = Location.cityOfRefuge,
     date = new Date(),
     homework = Some("p456 #2,3,4,5,6"),
-    sectionsCovered = Some("Sections 9a, 9b, 9c. Not 9d"),
+    materialCovered = Some("Sections 9a, 9b, 9c. Not 9d"),
     tutorId = tutor1._id
   )
 
@@ -83,18 +83,18 @@ class ModelSpecs extends Specification {
       Tutor.find(tutor1._id) must beEmpty
     }
   }
-  "the student evaluation should" should {
+  "the student report should" should {
     args(sequential=true)
 
     "create test student" in {
-      studentEvaluation1.save
-      StudentEvaluation.find(studentEvaluation1._id).get must beEqualTo(studentEvaluation1)
+      sessionReport1.save
+      SessionReport.find(sessionReport1._id).get must beEqualTo(sessionReport1)
     }
-    "delete student evaluation by id" in {
-      val studentEvaluation = StudentEvaluation.find(studentEvaluation1._id).get
-      studentEvaluation.delete
+    "delete student report by id" in {
+      val sessionReport = SessionReport.find(sessionReport1._id).get
+      sessionReport.delete
     
-      StudentEvaluation.find(studentEvaluation1._id) must beEmpty
+      SessionReport.find(sessionReport1._id) must beEmpty
     }
   }
 }
