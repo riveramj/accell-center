@@ -1,0 +1,21 @@
+@import "common";
+
+form {
+  @extend %create-form;
+
+  select {
+    height: 30px;
+    padding: 5px 10px;
+    border: 1px solid #c0c0c0;
+    width: 350px;
+  }
+
+  label#present{
+    display: inline-block;
+    vertical-align: text-bottom;
+  }
+}
+
+section {
+  @extend %list-element;
+}
