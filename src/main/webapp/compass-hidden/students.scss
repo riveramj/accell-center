@@ -1,0 +1,9 @@
+@import "common";
+
+form {
+  @extend %create-form;
+}
+
+section {
+  @extend %list-element;
+}
