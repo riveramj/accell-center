@@ -1,0 +1,37 @@
+@import "common";
+
+#main-nav {
+  width: 100%; 
+  margin: 0 auto;
+  padding: 20px 10px 20px 0;
+  max-width: 1000px;
+  text-align: right;
+
+  a {
+    color: black;
+
+    &:hover {
+      color: red;
+      text-decoration: none;
+    }
+  }
+  
+}
+
+#nav-links {
+  display: inline-block;
+  margin-top: 2px;
+
+  li {
+    display: inline-block;
+    margin: 0 16px;
+  }
+}
+
+#logo {
+  display: inline-block;
+  float: left;
+  h3 {
+    margin: 0;
+  }
+}
