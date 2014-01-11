@@ -8,7 +8,8 @@ import net.liftweb.http.RedirectResponse
 import com.riveramj.snippet._
 
 object Paths {
-  val index  = Menu.i("index")   / "index" 
+  val index  = Menu.i("index")   / "index" >>
+    EarlyResponse(() => Full(RedirectResponse(Tutors.menu.loc.calcDefaultHref)))
 
   def siteMap = SiteMap(
     index,
