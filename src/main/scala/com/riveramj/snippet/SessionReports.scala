@@ -25,6 +25,7 @@ class SessionReports extends Loggable {
     var present = false
     var semester: Box[Semester] = Empty
     var location: Box[Location] = Empty
+    var stationSubject: Box[StationSubject] = Empty
     var studentGroup: Box[String] = Empty 
     var homework: Box[String] = Empty 
     var materialCovered: Box[String] = Empty
@@ -41,6 +42,7 @@ class SessionReports extends Loggable {
         semester = semester,
         location = location,
         date = new Date(),
+        stationSubject = stationSubject,
         homework = homework,
         materialCovered = materialCovered,
         tutorRemarks = tutorRemarks
@@ -65,6 +67,7 @@ class SessionReports extends Loggable {
     val allTutors = Tutor.findAll
     val allSemesters = Semester.all
     val allLocations = Location.all
+    val allStationSubjects = StationSubject.all
     
     def studentSelect = {
       SHtml.select(
@@ -98,13 +101,22 @@ class SessionReports extends Loggable {
       )
     }
 
+    def stationSubjectSelect = {
+      SHtml.selectObj(
+        allStationSubjects.toList.map(subject => (Full(subject), subject.toString)),
+        Full(Empty),
+        (selectedSubject: Box[StationSubject]) => stationSubject = selectedSubject
+      )
+    }
+
     SHtml.makeFormsAjax andThen
     "#student" #> studentSelect &
     "#student-present" #> SHtml.checkbox(present, present = _) &
     "#tutor" #> tutorSelect &
-    "#student-group" #> SHtml.text("", group =>  studentGroup = Some(group)) &
+    "#group-number" #> SHtml.text("", group =>  studentGroup = Some(group)) &
     "#location" #> locationSelect &
     "#semester" #> semesterSelect &
+    "#station-subject" #> stationSubjectSelect &
     "#session-date" #> SHtml.text(date, date = _) &
     "#homework" #> SHtml.text("", hw =>  homework = Some(hw)) &
     "#material-covered" #> SHtml.text("", covered =>  materialCovered = Some(covered)) &

@@ -51,6 +51,18 @@ object Semester {
   )
 }
 
+sealed trait StationSubject
+object StationSubject {
+  case object Algebra extends StationSubject
+  case object Geometry extends StationSubject
+  case object ReadingWriting extends StationSubject {
+    override def toString() = "Reading/Writing"
+  }
+  
+  lazy val all:Set[StationSubject] = Set(
+    Algebra,
+    Geometry,
+    ReadingWriting
   )
 }
 
@@ -59,6 +71,7 @@ case class SessionReport(
   studentId: ObjectId,
   tutorId: ObjectId,
   present: Boolean,
+  stationSubject: Option[StationSubject],
   group: Option[String] = None,
   semester: Option[Semester],
   location: Option[Location],
