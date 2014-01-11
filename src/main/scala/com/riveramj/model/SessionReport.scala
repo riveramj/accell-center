@@ -8,32 +8,49 @@ import net.liftweb.json.JsonDSL._
 
 sealed trait Location
 object Location {
-  case object cityOfRefuge extends Location
-  case object other extends Location
+  case object CityOfRefuge extends Location {
+    override def toString() = "City of Refuge"
+  }
+  case object Other extends Location
 
   lazy val all:Set[Location] = Set(
-    cityOfRefuge,
-    other
+    CityOfRefuge,
+    Other
   )
 }
 
 
 sealed trait Semester
 object Semester {
-  case object spring2014 extends Semester
-  case object summer2014 extends Semester
-  case object fall2014   extends Semester
-  case object spring2015 extends Semester
-  case object summer2015 extends Semester
-  case object fall2015   extends Semester
+  case object Spring2014 extends Semester {
+    override def toString() = "Spring 2014"
+  }
+  case object Summer2014 extends Semester {
+    override def toString() = "Summer 2014"
+  }
+  case object Fall2014 extends Semester {
+    override def toString() = "Fall 2014"
+  }
+  case object Spring2015 extends Semester {
+    override def toString() = "Spring 2015"
+  }
+  case object Summer2015 extends Semester {
+    override def toString() = "Summer 2015"
+  }
+  case object Fall2015 extends Semester {
+    override def toString() = "Fall 2015"
+  }
 
   lazy val all:Set[Semester] = Set(
-    spring2014,
-    summer2014,
-    fall2014,
-    spring2015,
-    summer2015,
-    fall2015
+    Spring2014,
+    Summer2014,
+    Fall2014,
+    Spring2015,
+    Summer2015,
+    Fall2015
+  )
+}
+
   )
 }
 
