@@ -8,22 +8,15 @@
 // Core CSS
 @import "scaffolding";
 @import "type";
-@import "code";
-@import "grid";
 @import "tables";
 @import "forms";
 @import "buttons";
 
 // Components
 @import "component-animations";
-@import "dropdowns";
 @import "labels";
-@import "badges";
-@import "alerts";
-@import "list-group";
 
 // Components w/ JavaScript
 @import "modals";
 
 // Utility classes
-@import "utilities";
