@@ -3,4 +3,5 @@ project/project
 project/target
 console.devmode.log
 .sass-cache/
-
+src/main/webapp/static/css/*
+src/main/webapp/static/js/*
