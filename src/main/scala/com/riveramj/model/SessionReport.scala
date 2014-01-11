@@ -47,7 +47,8 @@ case class SessionReport(
   location: Option[Location],
   date: Date,
   homework: Option[String] = None,
-  materialCovered: Option[String] = None
+  materialCovered: Option[String] = None,
+  tutorRemarks: Option[String] = None
 )
   extends MongoDocument[SessionReport] {
   def meta = SessionReport

@@ -28,6 +28,7 @@ class SessionReports extends Loggable {
     var studentGroup: Box[String] = Empty 
     var homework: Box[String] = Empty 
     var materialCovered: Box[String] = Empty
+    var tutorRemarks: Box[String] = Empty
     var sessionDate = ""
     var date = ""
 
@@ -41,7 +42,8 @@ class SessionReports extends Loggable {
         location = location,
         date = new Date(),
         homework = homework,
-        materialCovered = materialCovered
+        materialCovered = materialCovered,
+        tutorRemarks = tutorRemarks
       )
 
       report.save
@@ -106,6 +108,7 @@ class SessionReports extends Loggable {
     "#session-date" #> SHtml.text(date, date = _) &
     "#homework" #> SHtml.text("", hw =>  homework = Some(hw)) &
     "#material-covered" #> SHtml.text("", covered =>  materialCovered = Some(covered)) &
+    "#tutor-remarks" #> SHtml.text("", remarks =>  tutorRemarks = Some(remarks)) &
     "#add-report" #> SHtml.ajaxOnSubmit(createReport _)
   }
 

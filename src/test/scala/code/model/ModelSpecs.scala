@@ -70,12 +70,7 @@ class ModelSpecs extends Specification {
       tutor1.save
       Tutor.find(tutor1._id).get must beEqualTo(tutor1)
     }
-    "find unique tutor by email" in {
-      val tutor = Tutor.findAll("email" -> tutor1.email)
     
-      tutor.length must beEqualTo(1)
-      tutor.head.email must beEqualTo(tutor1.email)
-    }
     "delete tutor by id" in {
       val tutor = Tutor.find(tutor1._id).get
       tutor.delete

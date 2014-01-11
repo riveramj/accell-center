@@ -3,7 +3,7 @@ import Keys._
 import com.openstudy.sbt.ResourceManagementPlugin._
 import com.earldouglas.xsbtwebplugin._
 
-name := "Accell Center"
+name := "AccellCenter"
 
 version := "0.1-SNAPSHOT"
 
