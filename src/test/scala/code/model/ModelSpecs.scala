@@ -34,12 +34,10 @@ class ModelSpecs extends Specification {
     _id = ObjectId.get,
     studentId = student1._id,
     present = true,
-    group = Some("2"),
-    semester = Some(Semester.spring2014),
-    location = Some(Location.cityOfRefuge),
+    stationSubject = Some(StationSubject.Algebra),
+    semester = Some(Semester.Spring2014),
+    location = Some(Location.CityOfRefuge),
     date = new Date(),
-    homework = Some("p456 #2,3,4,5,6"),
-    materialCovered = Some("Sections 9a, 9b, 9c. Not 9d"),
     tutorId = tutor1._id
   )
 

@@ -72,7 +72,7 @@ case class SessionReport(
   tutorId: ObjectId,
   present: Boolean,
   stationSubject: Option[StationSubject],
-  group: Option[String] = None,
+  stationNumber: Option[String] = None,
   semester: Option[Semester],
   location: Option[Location],
   date: Date,
@@ -87,7 +87,7 @@ case class SessionReport(
 object SessionReport extends MongoDocumentMeta[SessionReport] {
   override def collectionName = "sessionReport"
   override def formats = super.formats + new ObjectIdSerializer + new PatternSerializer +
-    new LocationTypeSerializer + new DateSerializer + new SemesterTypeSerializer
+    new LocationTypeSerializer + new DateSerializer + new SemesterTypeSerializer + new StationSubjectSerializer
 }
 
 
@@ -122,5 +122,22 @@ class SemesterTypeSerializer extends Serializer[Semester] {
   def serialize(implicit format: Formats) = {
     case possibleSemester if SemesterClass.isInstance(possibleSemester) &&
       possibleSemester.getClass.getName().endsWith("$") => possibleSemester.getClass.getName()
+  }
+}
+
+class StationSubjectSerializer extends Serializer[StationSubject] {
+
+  private val StationSubjectClass = classOf[StationSubject]
+
+  def deserialize(implicit format: Formats) = {
+
+    case (TypeInfo(StationSubjectClass, _), json) =>
+      val className = json.extract[String]
+      Class.forName(className).getField("MODULE$").get().asInstanceOf[StationSubject]
+  }
+
+  def serialize(implicit format: Formats) = {
+    case possibleStationSubject if StationSubjectClass.isInstance(possibleStationSubject) &&
+      possibleStationSubject.getClass.getName().endsWith("$") => possibleStationSubject.getClass.getName()
   }
 }
