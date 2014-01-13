@@ -15,6 +15,7 @@ object Paths {
     index,
     Tutors.menu,
     Students.menu,
+    CreateSessionReports.menu,
     SessionReports.menu
   )
 }

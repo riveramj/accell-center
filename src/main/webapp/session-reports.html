@@ -1,78 +1,8 @@
 <div id="main" data-lift="surround?with=default-template;at=content">
-  <h2>Session Reports</h2>
+  <h2 data-lift="Loc.general-currentSessionReports">Current Session Reports</h2>
+  <a href="/create-session-report">Create New Session Report</a>
 
-  <form data-lift="sessionReports.create">
-    <h3 data-lift="Loc.student-createNewStudent">Create New Session Report</h3>
-    <ul>
-      <li>
-        <label for="station-subject" data-lift="Loc.general-stationSubject">Station Subject</label>
-        <select id="station-subject">
-          <option>Algebra</option>
-          <option>Reading/Writing</option>
-        </select>
-      </li>
-      <li>
-        <label for="group-number" data-lift="Loc.general-groupNumber">Group Number</label> 
-        <input type="text" id="group-number">
-      </li>
-      <li>
-        <label for="tutor" data-lift="Loc.general-tutor">Tutor</label>
-        <select id="tutor">
-          <option>Mike Rivera</option>
-          <option>Louis ReFour III</option>
-        </select>
-      </li>
-      <li>
-        <label for="semester" data-lift="Loc.general-semester">Semester</label> 
-        <select id="semester">
-          <option>Spring 2014</option>
-          <option>Summer 2014</option>
-          <option>Fall 2014</option>
-        </select>
-      </li>
-      <li>
-        <label for="location" data-lift="Loc.general-location">Location</label> 
-        <select id="location">
-          <option>City of Refuge</option>
-          <option>Other</option>
-        </select>
-      </li>
-      <li>
-        <label for="session-date" data-lift="Loc.general-sessionDate">Session Date</label> 
-        <input type="text" id="session-date">
-      </li>
-      <li>
-        <label for="material-covered" data-lift="Loc.general-materialCovered">Material Covered</label> 
-        <textarea id="material-covered"></textarea>
-      </li>
-      <li>
-        <label for="assigned-homework" data-lift="Loc.general-assignedHomework">Assigned Homework</label> 
-        <textarea id="assigned-homework"></textarea>
-      </li>
-      <li>
-        <label for="sudent" data-lift="Loc.general-student">Student</label>
-        <select id="student">
-          <option>Mike Rivera</option>
-          <option>Louis ReFour III</option>
-        </select>
-      </li>
-      <li>
-        <label id="present" for="student-present" data-lift="Loc.general-studentPresent">Student Present</label> 
-        <input type="checkbox" value="present" id="student-present">
-      </li>
-      <li>
-        <label for="tutor-remarks" data-lift="Loc.general-tutorRemarks">Tutor Remarks</label> 
-        <input type="text" id="tutor-remarks">
-      </li>
-    </ul>
-    <footer>
-      <button type="submit" id="add-report">Add Report</button>
-    </footer>
-  </form>
-  
   <section>
-    <h3 data-lift="Loc.general-currentReports">Current Reports</h3>
-    
     <div data-lift="sessionReports.list">
       <table id="reports-list">
         <thead>

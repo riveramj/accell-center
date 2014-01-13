@@ -13,13 +13,13 @@ import java.util.Date
 
 import com.riveramj.model._
 
-object SessionReports {
-  val menu = Menu.i("Session Reports") / "session-reports"
+object CreateSessionReports {
+  val menu = Menu.i("Create Session Reports") / "create-session-report"
 }
 
-class SessionReports extends Loggable {
+class CreateSessionReports extends Loggable {
 
-  def create = {
+  def render = {
     var studentId = ""
     var tutorId = ""
     var present = false
@@ -123,39 +123,6 @@ class SessionReports extends Loggable {
     "#material-covered" #> SHtml.textarea("", covered =>  materialCovered = Some(covered)) &
     "#tutor-remarks" #> SHtml.textarea("", remarks =>  tutorRemarks = Some(remarks)) &
     "#add-report" #> SHtml.ajaxOnSubmit(createReport _)
-  }
-
-  def list = {
-    val reports = SessionReport.findAll
-
-    def deleteReport(reportId: ObjectId): JsCmd = {
-      SessionReport.find(reportId).map(_.delete)
-      
-      SessionReport.find(reportId) match {
-        case None =>
-          JsCmds.Run("$('#" + reportId + "').parent().parent().remove()")
-        case _ => 
-        logger.error(s"couldn't delete student with id $reportId")
-      }
-    }
-    
-    ClearClearable andThen
-    ".report-entry" #> reports.map { report => 
-      val student = Student.find(report.studentId)
-      val tutor = Tutor.find(report.tutorId)
-      
-      ".studentName *" #> student.map(s => s.firstName + " " + s.lastName) &
-      ".tutorName *" #> tutor.map(t => t.firstName + " " + t.lastName) &
-      ".semester *" #> report.semester.map(_.toString) &
-      ".delete-report [id]" #> report._id.toString &
-      ".delete-report [onclick]" #> SHtml.ajaxInvoke(() => {
-        JsCmds.Confirm("Are you sure you want to delete the report?", {
-          SHtml.ajaxInvoke(() => {
-            deleteReport(report._id)
-          }).cmd
-        })
-      })
-    }
   }
 
 }

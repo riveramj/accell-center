@@ -16,6 +16,30 @@ form {
   }
 }
 
+#add-report{
+  @extend .btn-success;
+}
+
 section {
   @extend %list-element;
+}
+
+li.add-student {
+  display: block;
+}
+
+li.tutor-remarks {
+  display: inline-block;
+}
+
+li.student-present {
+  width: 132px;
+
+  input {
+    width: 20px;
+  }
+}
+
+footer {
+  
 }

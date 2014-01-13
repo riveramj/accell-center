@@ -1,0 +1,103 @@
+<div id="main" data-lift="surround?with=default-template;at=content">
+  <h2 data-lift="Loc.student-createNewSessionReport">Create New Session Report</h2>
+
+  <form data-lift="CreateSessionReports">
+    <h3 data-lift="Loc.student-sessionDetails">Session Details</h3>
+    <ul>
+      <li>
+        <label for="station-number" data-lift="Loc.general-stationNumber">Station Number</label> 
+        <input type="text" id="station-number">
+      </li>
+      <li>
+        <label for="station-subject" data-lift="Loc.general-stationSubject">Station Subject</label>
+        <select id="station-subject">
+          <option>Algebra</option>
+          <option>Reading/Writing</option>
+        </select>
+      </li>
+      <li>
+        <label for="tutor" data-lift="Loc.general-tutor">Tutor</label>
+        <select id="tutor">
+          <option>Mike Rivera</option>
+          <option>Louis ReFour III</option>
+        </select>
+      </li>
+      <li>
+        <label for="semester" data-lift="Loc.general-semester">Semester</label> 
+        <select id="semester">
+          <option>Spring 2014</option>
+          <option>Summer 2014</option>
+          <option>Fall 2014</option>
+        </select>
+      </li>
+      <li>
+        <label for="location" data-lift="Loc.general-location">Location</label> 
+        <select id="location">
+          <option>City of Refuge</option>
+          <option>Other</option>
+        </select>
+      </li>
+      <li>
+        <label for="session-date" data-lift="Loc.general-sessionDate">Session Date</label> 
+        <input type="text" id="session-date">
+      </li>
+      <li>
+        <label for="material-covered" data-lift="Loc.general-materialCovered">Material Covered</label> 
+        <textarea id="material-covered"></textarea>
+      </li>
+      <li>
+        <label for="assigned-homework" data-lift="Loc.general-assignedHomework">Assigned Homework</label> 
+        <textarea id="assigned-homework"></textarea>
+      </li>
+    </ul>
+    <ul>
+      <li class="new-student">
+        <h3 data-lift="Loc.student-sessionDetails">Session Details</h3>
+        <ul>
+          <li>
+            <label for="sudent" data-lift="Loc.general-student">Student</label>
+            <select id="student">
+              <option>Mike Rivera</option>
+              <option>Louis ReFour III</option>
+            </select>
+          </li>
+          <li class="student-present">
+            <label id="present" for="student-present" data-lift="Loc.general-studentPresent">Student Present</label> 
+            <input type="checkbox" value="present" id="student-present">
+          </li>
+          <li class="tutor-remarks">
+            <label for="tutor-remarks" data-lift="Loc.general-tutorRemarks">Tutor Remarks</label> 
+            <input type="text" id="tutor-remarks">
+          </li>
+        </ul>
+      </li>
+      <li class="new-student">
+        <ul>
+          <li>
+            <label for="sudent" data-lift="Loc.general-student">Student</label>
+            <select id="student">
+              <option>Mike Rivera</option>
+              <option>Louis ReFour III</option>
+            </select>
+          </li>
+          <li class="student-present">
+            <label id="present" for="student-present" data-lift="Loc.general-studentPresent">Student Present</label> 
+            <input type="checkbox" value="present" id="student-present">
+          </li>
+          <li class="tutor-remarks">
+            <label for="tutor-remarks" data-lift="Loc.general-tutorRemarks">Tutor Remarks</label> 
+            <input type="text" id="tutor-remarks">
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <footer>
+      <button class="add-student">Add Student</button>
+      <button type="submit" id="add-report">Add Report</button>
+    </footer>
+  </form>
+
+  <tail>
+    <link rel="stylesheet" href="/static/css/sessionReports.css"> 
+  </tail>
+</div>
