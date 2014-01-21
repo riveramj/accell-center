@@ -51,49 +51,35 @@
       </li>
     </ul>
     <ul>
-      <li class="new-student">
-        <h3 data-lift="Loc.student-sessionDetails">Session Details</h3>
-        <ul>
-          <li>
-            <label for="sudent" data-lift="Loc.general-student">Student</label>
-            <select id="student">
-              <option>Mike Rivera</option>
-              <option>Louis ReFour III</option>
-            </select>
-          </li>
-          <li class="student-present">
-            <label id="present" for="student-present" data-lift="Loc.general-studentPresent">Student Present</label> 
-            <input type="checkbox" value="present" id="student-present">
-          </li>
-          <li class="tutor-remarks">
-            <label for="tutor-remarks" data-lift="Loc.general-tutorRemarks">Tutor Remarks</label> 
-            <input type="text" id="tutor-remarks">
-          </li>
-        </ul>
+      <li>
+        <h3 data-lift="Loc.student-sessionDetails">Student Details</h3>
       </li>
-      <li class="new-student">
+      <li class="student-entry">
         <ul>
           <li>
-            <label for="sudent" data-lift="Loc.general-student">Student</label>
-            <select id="student">
+            <label for="selected-sudent" data-lift="Loc.general-student">Student</label>
+            <select id="selected-student" class="student">
               <option>Mike Rivera</option>
               <option>Louis ReFour III</option>
             </select>
           </li>
           <li class="student-present">
             <label id="present" for="student-present" data-lift="Loc.general-studentPresent">Student Present</label> 
-            <input type="checkbox" value="present" id="student-present">
+            <input type="checkbox" id="student-present" class="present">
           </li>
           <li class="tutor-remarks">
             <label for="tutor-remarks" data-lift="Loc.general-tutorRemarks">Tutor Remarks</label> 
-            <input type="text" id="tutor-remarks">
+            <input type="text" id="tutor-remarks" class="remarks">
+          </li>
+          <li>
+            <button type="button" class="save-student">Save student</button>
           </li>
         </ul>
       </li>
     </ul>
     <footer>
       <button class="add-student">Add Student</button>
-      <button type="submit" id="add-report">Add Report</button>
+      <button type="submit" id="create-report">Create Report</button>
     </footer>
   </form>
 

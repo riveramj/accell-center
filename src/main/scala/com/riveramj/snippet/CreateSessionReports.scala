@@ -17,27 +17,64 @@ object CreateSessionReports {
   val menu = Menu.i("Create Session Reports") / "create-session-report"
 }
 
+case class StudentReport(
+  id: ObjectId,
+  studentId:String = "", 
+  present:Boolean = false, 
+  tutorRemarks:String = ""
+)
+
 class CreateSessionReports extends Loggable {
 
   def render = {
-    var studentId = ""
     var tutorId = ""
-    var present = false
     var semester: Box[Semester] = Empty
     var location: Box[Location] = Empty
     var stationSubject: Box[StationSubject] = Empty
     var stationNumber: Box[String] = Empty 
     var homework: Box[String] = Empty 
     var materialCovered: Box[String] = Empty
-    var tutorRemarks: Box[String] = Empty
     var sessionDate = ""
     var date = ""
+    var students: Seq[StudentReport] = Seq(StudentReport(id = ObjectId.get),StudentReport(id = ObjectId.get))
 
-    def createReport(): JsCmd = {
-      val report = SessionReport(
+    val allStudents = Student.findAll
+    val allTutors = Tutor.findAll
+    val allSemesters = Semester.all
+    val allLocations = Location.all
+    val allStationSubjects = StationSubject.all
+
+    def saveStudents(groupReportId: ObjectId) = {
+      val savedStudents = students.map { studentReport =>
+        val report = SessionReport(
+          _id = ObjectId.get,
+          studentId = ObjectId.massageToObjectId(studentReport.studentId),
+          present = studentReport.present,
+          tutorRemarks = emptyForBlank(studentReport.tutorRemarks),
+          sessionReportGroupDetailsId = groupReportId
+        )
+
+        report.save
+
+        SessionReport.find(report._id) match {
+          case Some(report) => 
+            RedirectTo(  
+              SessionReports.menu.loc.calcDefaultHref
+            )
+
+          case error =>
+            logger.error(s"error creating report: $error")
+
+            JsCmds.Alert("Internal error. Please try again.")
+        }
+      }
+
+      savedStudents.head
+    }
+   
+    def createReport: JsCmd = {
+      val reportGroupDetails = SessionReportGroupDetails(
         _id = ObjectId.get,
-        studentId = ObjectId.massageToObjectId(studentId),
-        present = present,
         tutorId = ObjectId.massageToObjectId(tutorId),
         semester = semester,
         location = location,
@@ -45,18 +82,15 @@ class CreateSessionReports extends Loggable {
         stationSubject = stationSubject,
         stationNumber = stationNumber,
         homework = homework,
-        materialCovered = materialCovered,
-        tutorRemarks = tutorRemarks
+        materialCovered = materialCovered
       )
 
-      report.save
+      reportGroupDetails.save
 
-      SessionReport.find(report._id) match {
+      SessionReportGroupDetails.find(reportGroupDetails._id) match {
         case Some(report) => 
-          RedirectTo(  
-            SessionReports.menu.loc.calcDefaultHref
-          )
-          
+          saveStudents(report._id)
+
         case error =>
           logger.error(s"error creating report: $error")
 
@@ -64,21 +98,60 @@ class CreateSessionReports extends Loggable {
       }
     }
 
-    val allStudents = Student.findAll
-    val allTutors = Tutor.findAll
-    val allSemesters = Semester.all
-    val allLocations = Location.all
-    val allStationSubjects = StationSubject.all
-    
-    def studentSelect = {
-      SHtml.select(
-        allStudents.sortWith(_.lastName < _.lastName).map(student => (student._id.toString, student.firstName)),
-        Full(""),
-        studentId = _
-      )
+    def updateStudent(selectedStudent: String, id: ObjectId) = {
+      students = students.collect {
+        case report if report.id == id =>
+          report.copy(studentId = selectedStudent)
+        case report => 
+          report
+      }
     }
 
-    def tutorSelect = {
+    def updatePresent(studentPresent: Boolean, id: ObjectId) = {
+      students = students.collect {
+        case report if report.id == id =>
+          report.copy(present = studentPresent)
+        case report => 
+          report
+      }
+    }
+
+    def updateRemarks(remarks: String, id: ObjectId) = {
+      students = students.collect {
+        case report if report.id == id =>
+          report.copy(tutorRemarks = remarks)
+        case report => 
+          report
+      }
+    }
+
+    def addStudent()() = {
+      Noop
+    }
+    
+
+    def renderStudentReports(report: StudentReport) = {
+
+      def studentSelect = {
+        SHtml.select(
+          allStudents.sortWith(_.lastName < _.lastName).map(student => (student._id.toString, student.firstName)),
+          Full(report.studentId),
+          updateStudent(_, report.id)
+        )
+      }
+
+      ".student" #> studentSelect &
+      ".present" #> SHtml.checkbox(
+        report.present, 
+        updatePresent(_, report.id)
+      ) &
+      ".remarks" #> SHtml.textarea(
+        report.tutorRemarks, 
+        updateRemarks(_, report.id)
+      ) 
+    }
+
+     def tutorSelect = {
       SHtml.select(
         allTutors.sortWith(_.lastName < _.lastName).map(tutor => (tutor._id.toString, tutor.firstName)),
         Full(""),
@@ -110,9 +183,8 @@ class CreateSessionReports extends Loggable {
       )
     }
 
+
     SHtml.makeFormsAjax andThen
-    "#student" #> studentSelect &
-    "#student-present" #> SHtml.checkbox(present, present = _) &
     "#tutor" #> tutorSelect &
     "#station-number" #> SHtml.text("", station =>  stationNumber = Some(station)) &
     "#location" #> locationSelect &
@@ -121,8 +193,8 @@ class CreateSessionReports extends Loggable {
     "#session-date" #> SHtml.text(date, date = _) &
     "#homework" #> SHtml.textarea("", hw =>  homework = Some(hw)) &
     "#material-covered" #> SHtml.textarea("", covered =>  materialCovered = Some(covered)) &
-    "#tutor-remarks" #> SHtml.textarea("", remarks =>  tutorRemarks = Some(remarks)) &
-    "#add-report" #> SHtml.ajaxOnSubmit(createReport _)
+    ".student-entry" #> students.map(renderStudentReports(_)) &
+    ".add-student" #> SHtml.ajaxSubmit("Add Student", addStudent()) &
+    "#create-report" #> SHtml.ajaxOnSubmit(createReport _)
   }
-
 }
