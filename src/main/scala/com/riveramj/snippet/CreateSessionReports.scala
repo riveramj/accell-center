@@ -36,7 +36,7 @@ class CreateSessionReports extends Loggable {
     var materialCovered: Box[String] = Empty
     var sessionDate = ""
     var date = ""
-    var students: Seq[StudentReport] = Seq(StudentReport(id = ObjectId.get),StudentReport(id = ObjectId.get))
+    var students = Seq(StudentReport(id = ObjectId.get))
 
     val allStudents = Student.findAll
     val allTutors = Tutor.findAll
@@ -125,8 +125,10 @@ class CreateSessionReports extends Loggable {
       }
     }
 
-    def addStudent()() = {
-      Noop
+    def addStudent(renderer: IdMemoizeTransform)() = {
+      students = students :+ StudentReport(id = ObjectId.get)
+      
+      renderer.setHtml()
     }
     
 
@@ -193,8 +195,10 @@ class CreateSessionReports extends Loggable {
     "#session-date" #> SHtml.text(date, date = _) &
     "#homework" #> SHtml.textarea("", hw =>  homework = Some(hw)) &
     "#material-covered" #> SHtml.textarea("", covered =>  materialCovered = Some(covered)) &
-    ".student-entry" #> students.map(renderStudentReports(_)) &
-    ".add-student" #> SHtml.ajaxSubmit("Add Student", addStudent()) &
+    ".students" #> SHtml.idMemoize { renderer =>
+      ".student-entry" #> students.map(renderStudentReports(_)) &
+      ".add-student" #> SHtml.ajaxOnSubmit(addStudent(renderer))
+    } &
     "#create-report" #> SHtml.ajaxOnSubmit(createReport _)
   }
 }
