@@ -64,6 +64,10 @@ ul {
     @extend .table-bordered;
     @extend .table-hover;
 
+    .summary:hover {
+      cursor: pointer;
+    }
+
     td {
       vertical-align: middle !important;
     }

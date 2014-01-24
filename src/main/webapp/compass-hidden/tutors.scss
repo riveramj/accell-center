@@ -9,5 +9,9 @@ section {
 }
 
 .hidden-row {
-  padding: 0 !important;
+  padding: 0;
+  
+  .email {
+    padding: 8px;
+  }
 }
