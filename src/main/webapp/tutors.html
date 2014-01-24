@@ -29,7 +29,7 @@
   <section>
     <h3 data-lift="Loc.tutor-currentTutors">Current Tutors</h3>
     
-    <div data-lift=tutors.list>
+    <div data-lift="tutors.list">
       <table id="tutor-list">
         <thead>
           <tr>
@@ -41,7 +41,7 @@
         </thead>
 
         <tbody>
-          <tr class="tutor-row">
+          <tr class="summary" data-toggle="collapse" data-target=".tutor-details">
             <td class="name">
               <span class="first-name">Mike</span>
               <span class="last-name">Rivera</span>
@@ -49,15 +49,19 @@
             <td class="email">rivera.mj@gmail.com</td>
             <td class="phone">404-123-4567</td>
             <td class="actions">
-              <a class="edit-tutor">
-                <span data-lift="Loc.replace-tutor-editTutor">Edit Tutor</span>
-              </a>
               <button class="delete-tutor">
                 <span data-lift="Loc.replace-tutor-deleteTutor">Delete Tutor</span>
               </button>
             </td>
           </tr>
-          <tr class="clearable tutor-row">
+          <tr class="details">
+            <td class="hidden-row" colspan="5">
+              <div class="tutor-details email collapse">
+                rivera.mj@gmial.com
+              </div>
+            </td>
+          </tr>
+          <tr class="clearable summary">
             <td>Louis ReFour III</td>
             <td>louis@gmail.com</td>
             <td>770-123-4567</td>
@@ -69,6 +73,9 @@
                 <span data-lift="Loc.replace-tutor-deleteTutor">Delete Tutor</span>
               </button>
             </td>
+          </tr>
+          <tr class="clearable details">
+            <td colspan="5"></td>
           </tr>
         </tbody>
       </table>

@@ -9,6 +9,8 @@ import net.liftweb.http.js.JsCmds._
 import net.liftweb.common._
 import org.bson.types.ObjectId
 
+import scala.xml.NodeSeq
+
 import com.riveramj.model.Tutor
 
 object Tutors {
@@ -68,20 +70,31 @@ class Tutors extends Loggable {
         logger.error(s"couldn't delete tutor with id $tutorId")
       }
     }
+
+    def renderTutor(rows: NodeSeq, tutor: Tutor) = {
+      {
+        ".name *" #> (tutor.firstName + " " + tutor.lastName) &
+        ".email *" #> tutor.email &
+        ".phone *" #> tutor.phone & 
+        ".delete-tutor [id]" #> tutor._id.toString &
+        ".delete-tutor [onclick]" #> SHtml.ajaxInvoke(() => {
+          JsCmds.Confirm("Are you sure you want to delete the tutor?", {
+            SHtml.ajaxInvoke(() => {
+              deleteTutor(tutor._id)
+            }).cmd
+          })
+        })
+      } apply rows
+    }
     
     ClearClearable andThen
-    ".tutor-row" #> tutors.map { tutor => 
-      ".name *" #> (tutor.firstName + " " + tutor.lastName) &
-      ".email *" #> tutor.email &
-      ".phone *" #> tutor.phone & 
-      ".delete-tutor [id]" #> tutor._id.toString &
-      ".delete-tutor [onclick]" #> SHtml.ajaxInvoke(() => {
-        JsCmds.Confirm("Are you sure you want to delete the tutor?", {
-          SHtml.ajaxInvoke(() => {
-            deleteTutor(tutor._id)
-          }).cmd
-        })
-      })
+    "tbody *" #> { rows: NodeSeq =>
+      val summaryRow = (".summary ^^" #> "unused") apply rows 
+      val detailsRow = (".details ^^" #> "unused") apply rows
+
+      tutors.map { tutor =>
+        renderTutor(summaryRow ++ detailsRow, tutor)
+      }
     }
   }
 }

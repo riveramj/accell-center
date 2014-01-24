@@ -56,14 +56,18 @@ ul {
   button {
     @extend .btn;
     @extend .btn-danger;
+    font-size: 13px;
   }
 
   table {
     @extend .table;
     @extend .table-bordered;
+    @extend .table-hover;
 
     td {
       vertical-align: middle !important;
     }
   }
+
+  margin-bottom: 100px;
 }
