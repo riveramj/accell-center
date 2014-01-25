@@ -62,7 +62,10 @@ ul {
   table {
     @extend .table;
     @extend .table-bordered;
-    @extend .table-hover;
+
+    tbody .summary:hover {
+      background-color: whitesmoke;
+    }
 
     .summary:hover {
       cursor: pointer;

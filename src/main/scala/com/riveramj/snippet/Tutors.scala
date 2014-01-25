@@ -65,6 +65,7 @@ class Tutors extends Loggable {
       
       Tutor.find(tutorId) match {
         case None =>
+          JsCmds.Run("$('#" + tutorId + "').parent().parent().prev().remove()") &
           JsCmds.Run("$('#" + tutorId + "').parent().parent().remove()")
         case _ => 
         logger.error(s"couldn't delete tutor with id $tutorId")
@@ -76,7 +77,8 @@ class Tutors extends Loggable {
         ".name *" #> (tutor.firstName + " " + tutor.lastName) &
         ".email *" #> tutor.email &
         ".phone *" #> tutor.phone & 
-        ".delete-tutor [id]" #> tutor._id.toString &
+        ".tutor-details [id]" #> tutor._id.toString &
+        ".summary [data-target]" #> ("#" + tutor._id.toString) &
         ".delete-tutor [onclick]" #> SHtml.ajaxInvoke(() => {
           JsCmds.Confirm("Are you sure you want to delete the tutor?", {
             SHtml.ajaxInvoke(() => {
@@ -94,7 +96,7 @@ class Tutors extends Loggable {
 
       tutors.map { tutor =>
         renderTutor(summaryRow ++ detailsRow, tutor)
-      }
+      }.flatten
     }
   }
 }
