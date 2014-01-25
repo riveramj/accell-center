@@ -8,13 +8,6 @@ section {
   @extend %list-element;
 }
 
-.hidden-row {
-  padding: 0;
-  
-  .email {
-    padding: 8px;
-  }
-}
 
 #subjects {
   label, input {

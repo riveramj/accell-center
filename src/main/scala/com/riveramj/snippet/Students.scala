@@ -11,6 +11,8 @@ import org.bson.types.ObjectId
 
 import com.riveramj.model.Student
 
+import scala.xml.NodeSeq
+
 object Students {
   val menu = Menu.i("students") / "students"
 }
@@ -67,26 +69,39 @@ class Students extends Loggable {
       
       Student.find(studentId) match {
         case None =>
+          JsCmds.Run("$('#" + studentId + "').parent().parent().prev().remove()") &
           JsCmds.Run("$('#" + studentId + "').parent().parent().remove()")
         case _ => 
         logger.error(s"couldn't delete student with id $studentId")
       }
     }
-    
-    ClearClearable andThen
-    ".student-row" #> students.map { student => 
-      ".name *" #> (student.firstName + " " + student.lastName) &
-      ".email *" #> student.email &
-      ".phone *" #> student.phone &
-      ".parents *" #> student.parents &
-      ".delete-student [id]" #> student._id.toString &
-      ".delete-student [onclick]" #> SHtml.ajaxInvoke(() => {
-        JsCmds.Confirm("Are you sure you want to delete the student?", {
-          SHtml.ajaxInvoke(() => {
-            deleteStudent(student._id)
-          }).cmd
+
+    def renderStudent(rows: NodeSeq, student: Student) = {
+      {
+        ".name *" #> (student.firstName + " " + student.lastName) &
+        ".email *" #> student.email &
+        ".phone *" #> student.phone &
+        ".parents *" #> student.parents &
+        ".student-details [id]" #> student._id.toString &
+        ".summary [data-target]" #> ("#" + student._id.toString) &
+        ".delete-student [onclick]" #> SHtml.ajaxInvoke(() => {
+          JsCmds.Confirm("Are you sure you want to delete the student?", {
+            SHtml.ajaxInvoke(() => {
+              deleteStudent(student._id)
+            }).cmd
+          })
         })
-      })
+      } apply rows
+    }
+
+    ClearClearable andThen
+    "tbody *" #> { rows: NodeSeq =>
+      val summaryRow = (".summary ^^" #> "unused") apply rows 
+      val detailsRow = (".details ^^" #> "unused") apply rows
+
+      students.map { student =>
+        renderStudent(summaryRow ++ detailsRow, student)
+      }.flatten
     }
   }
 }

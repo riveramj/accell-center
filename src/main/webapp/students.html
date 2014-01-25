@@ -29,10 +29,10 @@
       <button type="submit" id="add-student">Add Student</button>
     </footer>
   </form>
-  
+
   <section>
     <h3 data-lift="Loc.sttdent-currentStudents">Current Students</h3>
-    
+
     <div data-lift="students.list">
       <table id="student-list">
         <thead>
@@ -41,12 +41,11 @@
             <th data-lift="Loc.general-email">Email</th>
             <th data-lift="Loc.general-phone">Phone</th>
             <th data-lift="Loc.general-Parents">Parents</th> 
-            <th data-lift="Loc.general-operations">Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr class="student-row">
+          <tr class="summary" data-toggle="collapse" data-target="#12345">
             <td class="name">
               <span class="first-name">Mike</span>
               <span class="last-name">Rivera</span>
@@ -54,31 +53,28 @@
             <td class="email">rivera.mj@gmail.com</td>
             <td class="phone">404-123-4567</td>
             <td class="parents">Joe and Jane</td>
-            <td class="actions">
-              <a class="edit-student">
-                <span data-lift="Loc.replace-student-editStudent">Edit Student</span>
-              </a>
-              <button class="delete-student">
-                <span data-lift="Loc.replace-student-deleteStudent">Delete Student</span>
-              </button>
+          </tr>
+          <tr class="details">
+            <td class="hidden-row" colspan="5">
+              <div class="student-details collapse">
+                <button class="delete-student">
+                  <span data-lift="Loc.replace-tutor-deleteStudent">Delete Student</span>
+                </button>
+              </div>
             </td>
           </tr>
-          <tr class="clearable student-row">
+          <tr class="clearable summary">
             <td>Louis ReFour III</td>
             <td>louis@gmail.com</td>
             <td>770-123-4567</td>
             <td>Bob and Jill</td>
-            <td class="actions">
-              <a class="edit-student">
-                <span data-lift="Loc.replace-student-editStudent">Edit Student</span>
-              </a>
-              <button class="delete-student">
-                <span data-lift="Loc.replace-student-deleteStudent">Delete Student</span>
-              </button>
-            </td>
+          </tr>
+          <tr class="clearable details">
+            <td colspan="5"></td>
           </tr>
         </tbody>
       </table>
+
     </div>
 
   </section>
