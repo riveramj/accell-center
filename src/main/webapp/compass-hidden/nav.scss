@@ -9,9 +9,11 @@
 
   a {
     color: black;
+    font-weight: bold;
+    font-size: 16px;
 
     &:hover {
-      color: red;
+      color: #33CCFF;
       text-decoration: none;
     }
   }
@@ -20,11 +22,11 @@
 
 #nav-links {
   display: inline-block;
-  margin-top: 2px;
 
   li {
     display: inline-block;
     margin: 0 16px;
+    position: relative;
   }
 }
 
@@ -34,4 +36,16 @@
   h3 {
     margin: 0;
   }
+}
+
+#nav-links ul.session-reports {
+  display:none;
+  position: absolute;
+  top: 22px;
+  left: -7px;
+  width: 140px;
+}
+
+#nav-links li.session-reports:hover ul.session-reports {
+  display:block;
 }
