@@ -10,6 +10,7 @@ import net.liftweb.common._
 import org.bson.types.ObjectId
 
 import java.util.Date
+import java.text.SimpleDateFormat
 
 import com.riveramj.model._
 
@@ -35,7 +36,6 @@ class CreateSessionReports extends Loggable {
     var homework: Box[String] = Empty 
     var materialCovered: Box[String] = Empty
     var sessionDate = ""
-    var date = ""
     var students = Seq(StudentReport(id = ObjectId.get))
 
     val allStudents = Student.findAll
@@ -78,7 +78,7 @@ class CreateSessionReports extends Loggable {
         tutorId = ObjectId.massageToObjectId(tutorId),
         semester = semester,
         location = location,
-        date = new Date(),
+        date = new SimpleDateFormat("MM/dd/yyyy").parse(sessionDate),
         stationSubject = stationSubject,
         stationNumber = stationNumber,
         homework = homework,
@@ -192,7 +192,7 @@ class CreateSessionReports extends Loggable {
     "#location" #> locationSelect &
     "#semester" #> semesterSelect &
     "#station-subject" #> stationSubjectSelect &
-    "#session-date" #> SHtml.text(date, date = _) &
+    "#session-date" #> SHtml.text(sessionDate, sessionDate = _) &
     "#homework" #> SHtml.textarea("", hw =>  homework = Some(hw)) &
     "#material-covered" #> SHtml.textarea("", covered =>  materialCovered = Some(covered)) &
     ".students" #> SHtml.idMemoize { renderer =>
