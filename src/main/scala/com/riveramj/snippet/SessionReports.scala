@@ -10,6 +10,7 @@ import net.liftweb.common._
 import org.bson.types.ObjectId
 
 import java.util.Date
+import scala.xml.NodeSeq
 
 import com.riveramj.model._
 
@@ -23,33 +24,45 @@ class SessionReports extends Loggable {
 
     def deleteReport(reportId: ObjectId): JsCmd = {
       SessionReport.find(reportId).map(_.delete)
-      
+
       SessionReport.find(reportId) match {
         case None =>
+          JsCmds.Run("$('#" + reportId + "').parent().parent().prev().remove()") &
           JsCmds.Run("$('#" + reportId + "').parent().parent().remove()")
         case _ => 
-        logger.error(s"couldn't delete student with id $reportId")
+          logger.error(s"couldn't delete student with id $reportId")
       }
     }
-    
-    ClearClearable andThen
-    ".report-entry" #> reports.map { report => 
+
+    def renderSessionReport(rows: NodeSeq, report: SessionReport) = {
       val student = Student.find(report.studentId)
       val groupDetails = SessionReportGroupDetails.find(report.sessionReportGroupDetailsId)
       val tutor = groupDetails.flatMap(groupEntry => Tutor.find(groupEntry.tutorId))
-      
-      ".studentName *" #> student.map(s => s.firstName + " " + s.lastName) &
-      ".tutorName *" #> tutor.map(t => t.firstName + " " + t.lastName) &
-      ".semester *" #> groupDetails.flatMap(gd => gd.semester.map(_.toString)) &
-      ".delete-report [id]" #> report._id.toString &
-      ".delete-report [onclick]" #> SHtml.ajaxInvoke(() => {
-        JsCmds.Confirm("Are you sure you want to delete the report?", {
-          SHtml.ajaxInvoke(() => {
-            deleteReport(report._id)
-          }).cmd
+
+      {
+        ".studentName *" #> student.map(s => s.firstName + " " + s.lastName) &
+        ".tutorName *" #> tutor.map(t => t.firstName + " " + t.lastName) &
+        ".semester *" #> groupDetails.flatMap(gd => gd.semester.map(_.toString)) &
+        ".session-report-details [id]" #> report._id.toString &
+        ".summary [data-target]" #> ("#" + report._id.toString) &
+        ".delete-report [onclick]" #> SHtml.ajaxInvoke(() => {
+          JsCmds.Confirm("Are you sure you want to delete the report?", {
+            SHtml.ajaxInvoke(() => {
+              deleteReport(report._id)
+            }).cmd
+          })
         })
-      })
+      } apply rows
+    }
+
+    ClearClearable andThen
+    "tbody *" #> { rows: NodeSeq =>
+      val summaryRow = (".summary ^^" #> "unused") apply rows 
+      val detailsRow = (".details ^^" #> "unused") apply rows
+
+      reports.map { report =>
+        renderSessionReport(summaryRow ++ detailsRow, report)
+      }.flatten
     }
   }
-
 }

@@ -10,36 +10,31 @@
             <th data-lift="Loc.general-studentName">Student Name</th>
             <th data-lift="Loc.general-tutorName">Tutor Name</th>
             <th data-lift="Loc.general-semsester">Semeter</th>
-            <th data-lift="Loc.general-operations">Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr class="report-entry">
+          <tr class="summary" data-toggle="collapse" data-target="#12345">
             <td class="studentName">Jone Doe</td>
             <td class="tutorName">Mike Rivera</td>
             <td class="semester">Spring 2014</td>
-            <td class="actions">
-              <a class="edit-report">
-                <span data-lift="Loc.replace-student-editReport">Edit Report</span>
-              </a>
-              <button class="delete-report">
-                <span data-lift="Loc.replace-student-deleteReport">Delete Report</span>
-              </button>
-            </td>
           </tr>
           <tr class="clearable student-row">
             <td>Jane Doe</td> 
             <td>Louis ReFour III</td> 
             <td>Spring 2014</td>
-            <td class="actions">
-              <a class="edit-report">
-                <span data-lift="Loc.replace-student-editReport">Edit Report</span>
-              </a>
-              <button class="delete-report">
-                <span data-lift="Loc.replace-student-deleteReport">Delete Report</span>
-              </button>
+          </tr>
+          <tr class="details">
+            <td class="hidden-row" colspan="5">
+              <div class="session-report-details collapse">
+                <button class="delete-report">
+                  <span data-lift="Loc.replace-tutor-deleteReport">Delete Report</span>
+                </button>
+              </div>
             </td>
+          </tr>
+          <tr class="clearable details">
+            <td colspan="5"></td>
           </tr>
         </tbody>
       </table>
