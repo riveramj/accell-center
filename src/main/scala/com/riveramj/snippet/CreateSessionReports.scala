@@ -197,8 +197,8 @@ class CreateSessionReports extends Loggable {
     "#material-covered" #> SHtml.textarea("", covered =>  materialCovered = Some(covered)) &
     ".students" #> SHtml.idMemoize { renderer =>
       ".student-entry" #> students.map(renderStudentReports(_)) &
-      ".add-student" #> SHtml.ajaxOnSubmit(addStudent(renderer))
-    } &
-    "#create-report" #> SHtml.ajaxOnSubmit(createReport _)
+      ".add-student" #> SHtml.ajaxOnSubmit(addStudent(renderer)) &
+      "#create-report" #> SHtml.ajaxOnSubmit(createReport _)
+    }
   }
 }
