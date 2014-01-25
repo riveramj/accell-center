@@ -20,6 +20,12 @@
         <label for="phone" data-lift="Loc.general-phone">Phone</label>
         <input id="phone" type="text">
       </li>
+      <li id="subjects">
+        <label for="english-subject" data-lift="Loc.general-tutorMath">Tutor English</label>
+        <input id="english-subject" type="checkbox">
+        <label for="math-subject" data-lift="Loc.general-tutorMath">Tutor Math</label>
+        <input id="math-subject" type="checkbox">
+      </li>
     </ul>
     <footer>
       <button type="submit" id="add-tutor">Add Tutor</button>
@@ -36,17 +42,19 @@
             <th data-lift="Loc.general-name">Name</th>
             <th data-lift="Loc.general-email">Email</th>
             <th data-lift="Loc.user-phone">Phone</th>
+            <th data-lift="Loc.user-subjects">Subjects</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr class="summary" data-toggle="collapse" data-target=".tutor-details">
+          <tr class="summary" data-toggle="collapse" data-target="#12345">
             <td class="name">
               <span class="first-name">Mike</span>
               <span class="last-name">Rivera</span>
             </td>
             <td class="email">rivera.mj@gmail.com</td>
             <td class="phone">404-123-4567</td>
+            <td class="subjects">English, Math</td>
           </tr>
           <tr class="details">
             <td class="hidden-row" colspan="5">

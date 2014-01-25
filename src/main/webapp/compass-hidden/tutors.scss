@@ -15,3 +15,21 @@ section {
     padding: 8px;
   }
 }
+
+#subjects {
+  label, input {
+    display: inline-block;
+  }
+
+  input {
+    height: 15px;
+  }
+
+  #english-subject {
+    width: 104px;
+  }
+
+  #math-subject {
+    width: 20px;
+  }
+}

@@ -12,6 +12,7 @@ import org.bson.types.ObjectId
 import scala.xml.NodeSeq
 
 import com.riveramj.model.Tutor
+import com.riveramj.model.Subject
 
 object Tutors {
   val menu = Menu.i("tutors") / "tutors"
@@ -23,14 +24,23 @@ class Tutors extends Loggable {
     var firstName = ""
     var lastName = ""
     var email = ""
+    var mathSubject = false
+    var englishSubject = false
     var phone: Option[String] = Empty 
 
     def createTutor(): JsCmd = {
+
+      val selectedSubjects: List[Subject] = {
+       (if (mathSubject) List(Subject.Math) else Nil) ++
+       (if (englishSubject) List(Subject.English) else Nil)
+      }
+
       val tutor = Tutor(
         _id = ObjectId.get,
         firstName = firstName,
         lastName = lastName,
         email = email,
+        subjects = selectedSubjects,
         phone = phone
       )
 
@@ -53,7 +63,9 @@ class Tutors extends Loggable {
     "#first-name" #> SHtml.text(firstName, firstName = _) &
     "#last-name" #> SHtml.text(lastName, lastName = _) &
     "#email" #> SHtml.text(email, email = _) &
-    "#phone" #> SHtml.text("", number =>  phone = Some(number)) &
+    "#phone" #> SHtml.text("", number => phone = Some(number)) &
+    "#math-subject" #> SHtml.checkbox(false, mathSubject = _, ("id", "math-subject")) &
+    "#english-subject" #> SHtml.checkbox(false, englishSubject = _, ("id", "english-subject")) &
     "#add-tutor" #> SHtml.ajaxOnSubmit(createTutor _)
   }
 
@@ -76,7 +88,8 @@ class Tutors extends Loggable {
       {
         ".name *" #> (tutor.firstName + " " + tutor.lastName) &
         ".email *" #> tutor.email &
-        ".phone *" #> tutor.phone & 
+        ".phone *" #> tutor.phone &
+        ".subjects *" #> tutor.subjects.map(_.toString).mkString(", ") &
         ".tutor-details [id]" #> tutor._id.toString &
         ".summary [data-target]" #> ("#" + tutor._id.toString) &
         ".delete-tutor [onclick]" #> SHtml.ajaxInvoke(() => {
