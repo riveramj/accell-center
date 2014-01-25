@@ -22,6 +22,7 @@ case class StudentReport(
   id: ObjectId,
   studentId:String = "", 
   present:Boolean = false, 
+  progression: Option[Progression] = None,
   tutorRemarks:String = ""
 )
 
@@ -50,6 +51,7 @@ class CreateSessionReports extends Loggable {
           _id = ObjectId.get,
           studentId = ObjectId.massageToObjectId(studentReport.studentId),
           present = studentReport.present,
+          progression = studentReport.progression,
           tutorRemarks = emptyForBlank(studentReport.tutorRemarks),
           sessionReportGroupDetailsId = groupReportId
         )
@@ -107,6 +109,15 @@ class CreateSessionReports extends Loggable {
       }
     }
 
+    def updateProgression(selectedProgression: Progression, id: ObjectId) = {
+      students = students.collect {
+        case report if report.id == id =>
+          report.copy(progression = Some(selectedProgression))
+        case report => 
+          report
+      }
+    }
+
     def updatePresent(studentPresent: Boolean, id: ObjectId) = {
       students = students.collect {
         case report if report.id == id =>
@@ -142,11 +153,20 @@ class CreateSessionReports extends Loggable {
         )
       }
 
+      def progressionSelect = {
+        SHtml.selectObj(
+          Progression.all.toList.map(progression => (progression, progression.toString)),
+          Full(Progression.Retain),
+          (selectedProgression: Progression) => updateProgression(selectedProgression, report.id)
+        )
+      }
+
       ".student" #> studentSelect &
       ".present" #> SHtml.checkbox(
         report.present, 
         updatePresent(_, report.id)
       ) &
+      ".progression" #> progressionSelect &
       ".remarks" #> SHtml.textarea(
         report.tutorRemarks, 
         updateRemarks(_, report.id)
