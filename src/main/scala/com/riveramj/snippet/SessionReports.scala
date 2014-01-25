@@ -10,6 +10,7 @@ import net.liftweb.common._
 import org.bson.types.ObjectId
 
 import java.util.Date
+import java.text.SimpleDateFormat
 import scala.xml.NodeSeq
 
 import com.riveramj.model._
@@ -42,7 +43,10 @@ class SessionReports extends Loggable {
       {
         ".studentName *" #> student.map(s => s.firstName + " " + s.lastName) &
         ".tutorName *" #> tutor.map(t => t.firstName + " " + t.lastName) &
+        ".subject *" #> groupDetails.flatMap(_.stationSubject).map(_.toString) &
         ".semester *" #> groupDetails.flatMap(gd => gd.semester.map(_.toString)) &
+        ".date *" #> groupDetails.map(groupDetail => new SimpleDateFormat("MM/dd/yyyy").format(groupDetail.date)) &
+        ".progression *" #> report.progression.map(_.toString) &
         ".session-report-details [id]" #> report._id.toString &
         ".summary [data-target]" #> ("#" + report._id.toString) &
         ".delete-report [onclick]" #> SHtml.ajaxInvoke(() => {

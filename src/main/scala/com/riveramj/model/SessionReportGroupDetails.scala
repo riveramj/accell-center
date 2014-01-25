@@ -135,4 +135,3 @@ class StationSubjectSerializer extends Serializer[StationSubject] {
       possibleStationSubject.getClass.getName().endsWith("$") => possibleStationSubject.getClass.getName()
   }
 }
-
