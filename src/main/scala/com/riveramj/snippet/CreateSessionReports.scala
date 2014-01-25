@@ -147,7 +147,7 @@ class CreateSessionReports extends Loggable {
 
       def studentSelect = {
         SHtml.select(
-          allStudents.sortWith(_.lastName < _.lastName).map(student => (student._id.toString, student.firstName)),
+          allStudents.sortWith(_.lastName < _.lastName).map(student => (student._id.toString, (student.firstName + " " + student.lastName))),
           Full(report.studentId),
           updateStudent(_, report.id)
         )
@@ -175,7 +175,7 @@ class CreateSessionReports extends Loggable {
 
      def tutorSelect = {
       SHtml.select(
-        allTutors.sortWith(_.lastName < _.lastName).map(tutor => (tutor._id.toString, tutor.firstName)),
+        allTutors.sortWith(_.lastName < _.lastName).map(tutor => (tutor._id.toString, (tutor.firstName + " " + tutor.lastName))),
         Full(""),
         tutorId = _
       )

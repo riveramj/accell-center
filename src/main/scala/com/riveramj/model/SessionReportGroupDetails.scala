@@ -41,7 +41,7 @@ object Semester {
     override def toString() = "Fall 2015"
   }
 
-  lazy val all:Set[Semester] = Set(
+  lazy val all:List[Semester] = List(
     Spring2014,
     Summer2014,
     Fall2014,
