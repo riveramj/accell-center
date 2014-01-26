@@ -1,0 +1,38 @@
+<div id="main" data-lift="surround?with=default-template;at=content">
+  <h2 data-lift="Loc.tutor-createNewTutor">Create New Tutor</h2>
+  <a href="/tutors">View List of Tutors</a>
+
+  <form data-lift="editTutor">
+    <ul id="create-tutor">
+      <li>
+        <label for="first-name" data-lift="Loc.general-firstName">First Name</label>
+        <input id="first-name" type="text">
+      </li>
+      <li>
+        <label for="last-name" data-lift="Loc.general-lastName">Last Name</label>
+        <input id="last-name" type="text">
+      </li>
+      <li>
+        <label for="email" data-lift="Loc.general-email">Email</label>
+        <input id="email" type="text">
+      </li>
+      <li>
+        <label for="phone" data-lift="Loc.general-phone">Phone</label>
+        <input id="phone" type="text">
+      </li>
+      <li id="subjects">
+        <label for="english-subject" data-lift="Loc.general-tutorMath">Tutor English</label>
+        <input id="english-subject" type="checkbox">
+        <label for="math-subject" data-lift="Loc.general-tutorMath">Tutor Math</label>
+        <input id="math-subject" type="checkbox">
+      </li>
+    </ul>
+    <footer>
+      <button type="submit" id="save-tutor">Save Tutor</button>
+    </footer>
+  </form>
+
+  <tail>
+    <link rel="stylesheet" href="/static/css/tutors.css"> 
+  </tail>
+</div>
