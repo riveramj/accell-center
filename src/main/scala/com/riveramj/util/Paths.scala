@@ -3,7 +3,7 @@ package com.riveramj.util
 import net.liftweb.sitemap._
 import net.liftweb.sitemap.Loc.EarlyResponse
 import net.liftweb.common._
-import net.liftweb.http.RedirectResponse
+import net.liftweb.http._
 
 import com.riveramj.snippet._
 
@@ -13,9 +13,17 @@ object Paths {
 
   def siteMap = SiteMap(
     index,
+    EditTutor.menu,
     Tutors.menu,
     Students.menu,
     CreateSessionReports.menu,
     SessionReports.menu
   )
+
+  def MenuId(name: String) = {
+    Menu.param[String](name, S ? name,
+      Full(_),
+      id => id
+    )
+  }
 }
