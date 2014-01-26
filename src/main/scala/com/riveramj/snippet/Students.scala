@@ -19,48 +19,6 @@ object Students {
 
 class Students extends Loggable {
 
-  def create = {
-    var firstName = ""
-    var lastName = ""
-    var email: Option[String] = Empty 
-    var phone: Option[String] = Empty
-    var parents: Option[String] = Empty
-
-    def createStudent(): JsCmd = {
-      val student = Student(
-        _id = ObjectId.get,
-        firstName = firstName,
-        lastName = lastName,
-        studentId = "",
-        email = email,
-        phone = phone,
-        parents = parents
-      )
-
-      student.save
-
-      Student.find(student._id) match {
-        case Some(student) => 
-          RedirectTo(  
-            Students.menu.loc.calcDefaultHref
-          )
-          
-        case error =>
-          logger.error(s"error creating student: $error")
-
-          JsCmds.Alert("Internal error. Please try again.")
-      }
-    }
-
-    SHtml.makeFormsAjax andThen
-    "#first-name" #> SHtml.text(firstName, firstName = _) &
-    "#last-name" #> SHtml.text(lastName, lastName = _) &
-    "#email" #> SHtml.text("", emailAddress =>  email = Some(emailAddress)) &
-    "#phone" #> SHtml.text("", number =>  phone = Some(number)) &
-    "#parents" #> SHtml.text("", parentsNames =>  parents = Some(parentsNames)) &
-    "#add-student" #> SHtml.ajaxOnSubmit(createStudent _)
-  }
-
   def list = {
     val students = Student.findAll
 
@@ -84,6 +42,7 @@ class Students extends Loggable {
         ".parents *" #> student.parents &
         ".student-details [id]" #> student._id.toString &
         ".summary [data-target]" #> ("#" + student._id.toString) &
+        ".edit-student [href]" #> ("/students/edit/" + student._id.toString) &
         ".delete-student [onclick]" #> SHtml.ajaxInvoke(() => {
           JsCmds.Confirm("Are you sure you want to delete the student?", {
             SHtml.ajaxInvoke(() => {

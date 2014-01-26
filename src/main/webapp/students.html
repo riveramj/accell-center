@@ -1,37 +1,8 @@
 <div id="main" data-lift="surround?with=default-template;at=content">
   <h2>Students</h2>
 
-  <form data-lift="students.create">
-    <h3 data-lift="Loc.student-createNewStudent">Create New Student</h3>
-    <ul>
-      <li>
-        <label for="first-name" data-lift="Loc.general-firstName">First Name</label>
-        <input id="first-name" type="text">
-      </li>
-      <li>
-        <label for="last-name" data-lift="Loc.general-lastName">Last Name</label>
-        <input id="last-name" type="text">
-      </li>
-      <li>
-        <label for="email" data-lift="Loc.general-email">Email</label>
-        <input id="email" type="text">
-      </li>
-      <li>
-        <label for="phone" data-lift="Loc.general-phone">Phone</label>
-        <input id="phone" type="text">
-      </li>
-      <li>
-        <label for="parents" data-lift="Loc.general-parents">Parents</label>
-        <input id="parents" type="text">
-      </li>
-    </ul>
-    <footer>
-      <button type="submit" id="add-student">Add Student</button>
-    </footer>
-  </form>
-
   <section>
-    <h3 data-lift="Loc.sttdent-currentStudents">Current Students</h3>
+    <h3 data-lift="Loc.student-currentStudents">Current Students</h3>
 
     <div data-lift="students.list">
       <table id="student-list">
@@ -57,6 +28,7 @@
           <tr class="details">
             <td class="hidden-row" colspan="5">
               <div class="student-details collapse">
+                <a class="edit-student" href="/students/edit/12345">Edit Student</a>
                 <button class="delete-student">
                   <span data-lift="Loc.replace-tutor-deleteStudent">Delete Student</span>
                 </button>

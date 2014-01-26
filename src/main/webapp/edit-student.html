@@ -1,0 +1,36 @@
+<div id="main" data-lift="surround?with=default-template;at=content">
+  <h2>Students</h2>
+
+  <form data-lift="editStudent">
+    <h3 data-lift="Loc.student-createNewStudent">Create New Student</h3>
+    <ul>
+      <li>
+        <label for="first-name" data-lift="Loc.general-firstName">First Name</label>
+        <input id="first-name" type="text">
+      </li>
+      <li>
+        <label for="last-name" data-lift="Loc.general-lastName">Last Name</label>
+        <input id="last-name" type="text">
+      </li>
+      <li>
+        <label for="email" data-lift="Loc.general-email">Email</label>
+        <input id="email" type="text">
+      </li>
+      <li>
+        <label for="phone" data-lift="Loc.general-phone">Phone</label>
+        <input id="phone" type="text">
+      </li>
+      <li>
+        <label for="parents" data-lift="Loc.general-parents">Parents</label>
+        <input id="parents" type="text">
+      </li>
+    </ul>
+    <footer>
+      <button type="submit" id="add-student">Add Student</button>
+    </footer>
+  </form>
+
+  <tail>
+    <link rel="stylesheet" href="/static/css/students.css"> 
+  </tail>
+</div>
