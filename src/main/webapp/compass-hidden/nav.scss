@@ -38,14 +38,27 @@
   }
 }
 
-#nav-links ul.session-reports {
+#nav-links ul.submenu {
   display:none;
   position: absolute;
   top: 22px;
-  left: -7px;
-  width: 140px;
+  
+  &.session-reports {
+    left: -7px;
+    width: 140px;
+  }
+
+   &.tutors {
+     left: -40px;
+     width: 128px;
+   }
+
+   &.students {
+     left: -40px;
+     width: 146px;
+   }
 }
 
-#nav-links li.session-reports:hover ul.session-reports {
+#nav-links li.submenu:hover ul.submenu {
   display:block;
 }
