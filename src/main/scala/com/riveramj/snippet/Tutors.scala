@@ -20,55 +20,6 @@ object Tutors {
 
 class Tutors extends Loggable {
 
-  def create = {
-    var firstName = ""
-    var lastName = ""
-    var email = ""
-    var mathSubject = false
-    var englishSubject = false
-    var phone: Option[String] = Empty 
-
-    def createTutor(): JsCmd = {
-
-      val selectedSubjects: List[Subject] = {
-       (if (mathSubject) List(Subject.Math) else Nil) ++
-       (if (englishSubject) List(Subject.English) else Nil)
-      }
-
-      val tutor = Tutor(
-        _id = ObjectId.get,
-        firstName = firstName,
-        lastName = lastName,
-        email = email,
-        subjects = selectedSubjects,
-        phone = phone
-      )
-
-      tutor.save
-
-      Tutor.find(tutor._id) match {
-        case Some(tutor) => 
-          RedirectTo(  
-            Tutors.menu.loc.calcDefaultHref
-          )
-          
-        case error =>
-          logger.error(s"error creating tutor: $error")
-
-          JsCmds.Alert("Internal error. Please try again.")
-      }
-    }
-
-    SHtml.makeFormsAjax andThen
-    "#first-name" #> SHtml.text(firstName, firstName = _) &
-    "#last-name" #> SHtml.text(lastName, lastName = _) &
-    "#email" #> SHtml.text(email, email = _) &
-    "#phone" #> SHtml.text("", number => phone = Some(number)) &
-    "#math-subject" #> SHtml.checkbox(false, mathSubject = _, ("id", "math-subject")) &
-    "#english-subject" #> SHtml.checkbox(false, englishSubject = _, ("id", "english-subject")) &
-    "#add-tutor" #> SHtml.ajaxOnSubmit(createTutor _)
-  }
-
   def list = {
     val tutors = Tutor.findAll
 
