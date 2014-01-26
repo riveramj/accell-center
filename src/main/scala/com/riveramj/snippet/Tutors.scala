@@ -92,6 +92,7 @@ class Tutors extends Loggable {
         ".subjects *" #> tutor.subjects.map(_.toString).mkString(", ") &
         ".tutor-details [id]" #> tutor._id.toString &
         ".summary [data-target]" #> ("#" + tutor._id.toString) &
+        ".edit-tutor [href]" #> ("/tutors/edit/" + tutor._id.toString) &
         ".delete-tutor [onclick]" #> SHtml.ajaxInvoke(() => {
           JsCmds.Confirm("Are you sure you want to delete the tutor?", {
             SHtml.ajaxInvoke(() => {
