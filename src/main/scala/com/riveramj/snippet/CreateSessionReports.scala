@@ -23,7 +23,8 @@ case class StudentReport(
   studentId:String = "", 
   present:Boolean = false, 
   progression: Option[Progression] = None,
-  tutorRemarks:String = ""
+  sessionRemarks:String = "",
+  homeworkRemarks:String = ""
 )
 
 class CreateSessionReports extends Loggable {
@@ -52,7 +53,8 @@ class CreateSessionReports extends Loggable {
           studentId = ObjectId.massageToObjectId(studentReport.studentId),
           present = studentReport.present,
           progression = studentReport.progression,
-          tutorRemarks = emptyForBlank(studentReport.tutorRemarks),
+          sessionRemarks = emptyForBlank(studentReport.sessionRemarks),
+          homeworkRemarks =  emptyForBlank(studentReport.homeworkRemarks),
           sessionReportGroupDetailsId = groupReportId
         )
 
@@ -127,10 +129,19 @@ class CreateSessionReports extends Loggable {
       }
     }
 
-    def updateRemarks(remarks: String, id: ObjectId) = {
+    def updateSessionRemarks(remarks: String, id: ObjectId) = {
       students = students.collect {
         case report if report.id == id =>
-          report.copy(tutorRemarks = remarks)
+          report.copy(sessionRemarks = remarks)
+        case report => 
+          report
+      }
+    }
+
+    def updateHomeworkRemarks(remarks: String, id: ObjectId) = {
+      students = students.collect {
+        case report if report.id == id =>
+          report.copy(homeworkRemarks = remarks)
         case report => 
           report
       }
@@ -167,10 +178,14 @@ class CreateSessionReports extends Loggable {
         updatePresent(_, report.id)
       ) &
       ".progression" #> progressionSelect &
-      ".remarks" #> SHtml.textarea(
-        report.tutorRemarks, 
-        updateRemarks(_, report.id)
-      ) 
+      ".session-remarks" #> SHtml.textarea(
+        report.sessionRemarks, 
+        updateSessionRemarks(_, report.id)
+      ) &
+      ".homework-remarks" #> SHtml.textarea(
+        report.homeworkRemarks, 
+        updateHomeworkRemarks(_, report.id)
+      )
     }
 
      def tutorSelect = {

@@ -28,8 +28,12 @@ li.add-student {
   display: block;
 }
 
-li.tutor-remarks {
+li.remarks {
   display: inline-block;
+
+  label {
+    width: 460px;
+  }
 }
 
 li.student-present {

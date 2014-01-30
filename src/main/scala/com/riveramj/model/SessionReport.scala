@@ -22,7 +22,8 @@ case class SessionReport(
   studentId: ObjectId,
   present: Boolean,
   progression: Option[Progression] = None,
-  tutorRemarks: Option[String] = None,
+  sessionRemarks: Option[String] = None,
+  homeworkRemarks: Option[String] = None,
   sessionReportGroupDetailsId: ObjectId 
 )
   extends MongoDocument[SessionReport] {
