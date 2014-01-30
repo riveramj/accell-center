@@ -180,7 +180,7 @@ class EditSessionReport extends Loggable {
     
 
     def renderStudentReports(report: SessionReport) = {
-      val studentList = ("","") +: allStudents.sortWith(_.lastName < _.lastName).map(student => (student._id.toString, (student.firstName + " " + student.lastName)))
+      val studentList = ("","") +: allStudents.sortBy(student => (student.lastName, student.firstName)).map(student => (student._id.toString, (student.firstName + " " + student.lastName)))
         
       def studentSelect = {
         val id = report.studentId match {

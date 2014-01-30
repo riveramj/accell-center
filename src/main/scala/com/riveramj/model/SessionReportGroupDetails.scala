@@ -55,6 +55,7 @@ sealed trait StationSubject
 object StationSubject {
   case object Algebra extends StationSubject
   case object Geometry extends StationSubject
+  case object Polynomials extends StationSubject
   case object ReadingWriting extends StationSubject {
     override def toString() = "Reading/Writing"
   }
