@@ -62,6 +62,7 @@ object StationSubject {
   lazy val all:Set[StationSubject] = Set(
     Algebra,
     Geometry,
+    Polynomials,
     ReadingWriting
   )
 }
