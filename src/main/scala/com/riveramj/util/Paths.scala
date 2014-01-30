@@ -17,7 +17,7 @@ object Paths {
     Tutors.menu,
     EditStudent.menu,
     Students.menu,
-    CreateSessionReports.menu,
+    EditSessionReport.menu,
     SessionReports.menu
   )
 

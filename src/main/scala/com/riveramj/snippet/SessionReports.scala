@@ -49,6 +49,7 @@ class SessionReports extends Loggable {
         ".progression *" #> report.progression.map(_.toString) &
         ".session-report-details [id]" #> report._id.toString &
         ".summary [data-target]" #> ("#" + report._id.toString) &
+        ".edit-report [href]" #> ("/session-report/edit/" + report.sessionReportGroupDetailsId) &
         ".delete-report [onclick]" #> SHtml.ajaxInvoke(() => {
           JsCmds.Confirm("Are you sure you want to delete the report?", {
             SHtml.ajaxInvoke(() => {

@@ -8,14 +8,21 @@ import net.liftweb.http.js._
 import net.liftweb.http.js.JsCmds._
 import net.liftweb.common._
 import org.bson.types.ObjectId
+import net.liftweb.json.JsonDSL._
+import net.liftweb.json.JsonAST.JObject
 
 import java.util.Date
 import java.text.SimpleDateFormat
 
 import com.riveramj.model._
 
-object CreateSessionReports {
-  val menu = Menu.i("Create Session Reports") / "create-session-report"
+object EditSessionReport {
+  import net.liftweb.sitemap._
+    import Loc._
+  import com.riveramj.util.Paths._
+
+  val menu = MenuId("Create Session Reports") / "session-report" / "edit" / * >>
+  TemplateBox(() => Templates("edit-session-report" :: Nil))
 }
 
 case class StudentReport(
@@ -27,7 +34,23 @@ case class StudentReport(
   homeworkRemarks:String = ""
 )
 
-class CreateSessionReports extends Loggable {
+class EditSessionReport extends Loggable {
+  val editingReportId = EditSessionReport.menu.loc.currentValue openOr ""
+  val possibleDetails = SessionReportGroupDetails.find(ObjectId.massageToObjectId(editingReportId))
+  val groupDetails = possibleDetails match {
+      case Some(details) => 
+        details
+      case None => 
+        SessionReportGroupDetails(
+          _id = ObjectId.get, 
+          tutorId = ObjectId.massageToObjectId(""), 
+          stationSubject = None,
+          semester = None,
+          location = None,
+          date = new Date()
+        ) 
+    }
+  val studentReports = SessionReport.findAll("sessionReportGroupDetailsId" -> ("$oid" -> groupDetails._id.toString))
 
   def render = {
     var tutorId = ""
@@ -77,8 +100,7 @@ class CreateSessionReports extends Loggable {
     }
    
     def createReport: JsCmd = {
-      val reportGroupDetails = SessionReportGroupDetails(
-        _id = ObjectId.get,
+      val updatedGroupDetails = groupDetails.copy(
         tutorId = ObjectId.massageToObjectId(tutorId),
         semester = semester,
         location = location,
@@ -89,9 +111,9 @@ class CreateSessionReports extends Loggable {
         materialCovered = materialCovered
       )
 
-      reportGroupDetails.save
+      updatedGroupDetails.save
 
-      SessionReportGroupDetails.find(reportGroupDetails._id) match {
+      SessionReportGroupDetails.find(updatedGroupDetails._id) match {
         case Some(report) => 
           saveStudents(report._id)
 
@@ -220,20 +242,25 @@ class CreateSessionReports extends Loggable {
       )
     }
 
+    val groupDate = 
+      if(possibleDetails.nonEmpty)
+        new SimpleDateFormat("MM/dd/yyyy").format(groupDetails.date)
+      else
+        ""
 
     SHtml.makeFormsAjax andThen
     "#tutor" #> tutorSelect &
-    "#station-number" #> SHtml.text("", station =>  stationNumber = Some(station)) &
+    "#station-number" #> SHtml.text(groupDetails.stationNumber.getOrElse(""), station =>  stationNumber = Some(station)) &
     "#location" #> locationSelect &
     "#semester" #> semesterSelect &
     "#station-subject" #> stationSubjectSelect &
-    "#session-date" #> SHtml.text(sessionDate, sessionDate = _) &
-    "#homework" #> SHtml.textarea("", hw =>  homework = Some(hw)) &
-    "#material-covered" #> SHtml.textarea("", covered =>  materialCovered = Some(covered)) &
+    "#session-date" #> SHtml.text(groupDate, sessionDate = _) &
+    "#assigned-homework" #> SHtml.textarea(groupDetails.homework.getOrElse(""), hw =>  homework = Some(hw)) &
+    "#material-covered" #> SHtml.textarea(groupDetails.materialCovered.getOrElse(""), covered =>  materialCovered = Some(covered)) &
     ".students" #> SHtml.idMemoize { renderer =>
       ".student-entry" #> students.map(renderStudentReports(_)) &
       ".add-student" #> SHtml.ajaxOnSubmit(addStudent(renderer)) &
-      "#create-report" #> SHtml.ajaxOnSubmit(createReport _)
+      "#save-report" #> SHtml.ajaxOnSubmit(createReport _)
     }
   }
 }

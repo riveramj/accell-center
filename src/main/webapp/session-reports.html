@@ -1,6 +1,6 @@
 <div id="main" data-lift="surround?with=default-template;at=content">
   <h2 data-lift="Loc.general-currentSessionReports">Current Session Reports</h2>
-  <a href="/create-session-report">Create New Session Report</a>
+  <a href="/session-report/edit/">Create New Session Report</a>
 
   <section>
     <div data-lift="sessionReports.list">
@@ -28,6 +28,7 @@
           <tr class="details">
             <td class="hidden-row" colspan="6">
               <div class="session-report-details collapse">
+                <a href="/session-report/edit/1234" class="edit-report">Edit Report</a>
                 <button class="delete-report">
                   <span data-lift="Loc.replace-tutor-deleteReport">Delete Report</span>
                 </button>
