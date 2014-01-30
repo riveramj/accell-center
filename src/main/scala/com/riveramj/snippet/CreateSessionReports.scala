@@ -25,15 +25,6 @@ object EditSessionReport {
   TemplateBox(() => Templates("edit-session-report" :: Nil))
 }
 
-case class StudentReport(
-  id: ObjectId,
-  studentId:String = "", 
-  present:Boolean = false, 
-  progression: Option[Progression] = None,
-  sessionRemarks:String = "",
-  homeworkRemarks:String = ""
-)
-
 class EditSessionReport extends Loggable {
   val editingReportId = EditSessionReport.menu.loc.currentValue openOr ""
   val possibleDetails = SessionReportGroupDetails.find(ObjectId.massageToObjectId(editingReportId))
@@ -43,7 +34,7 @@ class EditSessionReport extends Loggable {
       case None => 
         SessionReportGroupDetails(
           _id = ObjectId.get, 
-          tutorId = ObjectId.massageToObjectId(""), 
+          tutorId = null, 
           stationSubject = None,
           semester = None,
           location = None,
@@ -51,6 +42,15 @@ class EditSessionReport extends Loggable {
         ) 
     }
   val studentReports = SessionReport.findAll("sessionReportGroupDetailsId" -> ("$oid" -> groupDetails._id.toString))
+
+  def reportPlaceholder = {
+    SessionReport(
+      _id = ObjectId.get,
+      studentId = null,
+      present = false,
+      sessionReportGroupDetailsId = null
+    )
+  }
 
   def render = {
     var tutorId = ""
@@ -61,7 +61,11 @@ class EditSessionReport extends Loggable {
     var homework: Box[String] = Empty 
     var materialCovered: Box[String] = Empty
     var sessionDate = ""
-    var students = Seq(StudentReport(id = ObjectId.get))
+    var students = 
+      if(studentReports.isEmpty)
+         List(reportPlaceholder)
+      else
+        studentReports
 
     val allStudents = Student.findAll
     val allTutors = Tutor.findAll
@@ -71,19 +75,18 @@ class EditSessionReport extends Loggable {
 
     def saveStudents(groupReportId: ObjectId) = {
       val savedStudents = students.map { studentReport =>
-        val report = SessionReport(
-          _id = ObjectId.get,
+        val updatedReport = studentReport.copy(
           studentId = ObjectId.massageToObjectId(studentReport.studentId),
           present = studentReport.present,
           progression = studentReport.progression,
-          sessionRemarks = emptyForBlank(studentReport.sessionRemarks),
-          homeworkRemarks =  emptyForBlank(studentReport.homeworkRemarks),
+          sessionRemarks = studentReport.sessionRemarks,
+          homeworkRemarks =  studentReport.homeworkRemarks,
           sessionReportGroupDetailsId = groupReportId
         )
 
-        report.save
+        updatedReport.save
 
-        SessionReport.find(report._id) match {
+        SessionReport.find(updatedReport._id) match {
           case Some(report) => 
             RedirectTo(  
               SessionReports.menu.loc.calcDefaultHref
@@ -126,17 +129,17 @@ class EditSessionReport extends Loggable {
 
     def updateStudent(selectedStudent: String, id: ObjectId) = {
       students = students.collect {
-        case report if report.id == id =>
-          report.copy(studentId = selectedStudent)
+        case report if report._id == id =>
+          report.copy(studentId = ObjectId.massageToObjectId(selectedStudent))
         case report => 
           report
       }
     }
 
-    def updateProgression(selectedProgression: Progression, id: ObjectId) = {
+    def updateProgression(selectedProgression: Box[Progression], id: ObjectId) = {
       students = students.collect {
-        case report if report.id == id =>
-          report.copy(progression = Some(selectedProgression))
+        case report if report._id == id =>
+          report.copy(progression = selectedProgression)
         case report => 
           report
       }
@@ -144,7 +147,7 @@ class EditSessionReport extends Loggable {
 
     def updatePresent(studentPresent: Boolean, id: ObjectId) = {
       students = students.collect {
-        case report if report.id == id =>
+        case report if report._id == id =>
           report.copy(present = studentPresent)
         case report => 
           report
@@ -153,8 +156,8 @@ class EditSessionReport extends Loggable {
 
     def updateSessionRemarks(remarks: String, id: ObjectId) = {
       students = students.collect {
-        case report if report.id == id =>
-          report.copy(sessionRemarks = remarks)
+        case report if report._id == id =>
+          report.copy(sessionRemarks = Some(remarks))
         case report => 
           report
       }
@@ -162,82 +165,92 @@ class EditSessionReport extends Loggable {
 
     def updateHomeworkRemarks(remarks: String, id: ObjectId) = {
       students = students.collect {
-        case report if report.id == id =>
-          report.copy(homeworkRemarks = remarks)
+        case report if report._id == id =>
+          report.copy(homeworkRemarks = Some(remarks))
         case report => 
           report
       }
     }
 
     def addStudent(renderer: IdMemoizeTransform)() = {
-      students = students :+ StudentReport(id = ObjectId.get)
+      students = students :+ reportPlaceholder
       
       renderer.setHtml()
     }
     
 
-    def renderStudentReports(report: StudentReport) = {
-
+    def renderStudentReports(report: SessionReport) = {
+      val studentList = ("","") +: allStudents.sortWith(_.lastName < _.lastName).map(student => (student._id.toString, (student.firstName + " " + student.lastName)))
+        
       def studentSelect = {
+        val id = report.studentId match {
+          case null => ""
+          case possibleId => possibleId.toString
+        }
+          
         SHtml.select(
-          allStudents.sortWith(_.lastName < _.lastName).map(student => (student._id.toString, (student.firstName + " " + student.lastName))),
-          Full(report.studentId),
-          updateStudent(_, report.id)
+          studentList,
+          Full(id),
+          updateStudent(_, report._id)
         )
       }
-
+      
       def progressionSelect = {
         SHtml.selectObj(
-          Progression.all.toList.map(progression => (progression, progression.toString)),
-          Full(Progression.Retain),
-          (selectedProgression: Progression) => updateProgression(selectedProgression, report.id)
+          (Empty, "") +: Progression.all.toList.map(progression => (Full(progression), progression.toString)),
+          Full(report.progression:Box[Progression]),
+          (selectedProgression: Box[Progression]) => updateProgression(selectedProgression, report._id)
         )
       }
 
       ".student" #> studentSelect &
       ".present" #> SHtml.checkbox(
         report.present, 
-        updatePresent(_, report.id)
+        updatePresent(_, report._id)
       ) &
       ".progression" #> progressionSelect &
       ".session-remarks" #> SHtml.textarea(
-        report.sessionRemarks, 
-        updateSessionRemarks(_, report.id)
+        report.sessionRemarks.getOrElse(""), 
+        updateSessionRemarks(_, report._id)
       ) &
       ".homework-remarks" #> SHtml.textarea(
-        report.homeworkRemarks, 
-        updateHomeworkRemarks(_, report.id)
+        report.homeworkRemarks.getOrElse(""), 
+        updateHomeworkRemarks(_, report._id)
       )
     }
 
-     def tutorSelect = {
+    def tutorSelect = {
+      val id = groupDetails.tutorId match {
+          case null => ""
+          case possibleId => possibleId.toString
+        }
       SHtml.select(
-        allTutors.sortWith(_.lastName < _.lastName).map(tutor => (tutor._id.toString, (tutor.firstName + " " + tutor.lastName))),
-        Full(""),
+        ("","") +: allTutors.sortWith(_.lastName < _.lastName).map(tutor => (tutor._id.toString, (tutor.firstName + " " + tutor.lastName))),
+        Full(id),
         tutorId = _
       )
     }
 
     def locationSelect = {
       SHtml.selectObj(
-        allLocations.toList.map(location => (Full(location), location.toString)),
-        Full(Empty),
+        (Empty, "") +: allLocations.toList.map(location => (Full(location), location.toString)),
+        Full(groupDetails.location:Box[Location]),
         (selectedLocation: Box[Location]) => location = selectedLocation
       )
     }
 
     def semesterSelect = {
       SHtml.selectObj(
-        allSemesters.toList.map(semester => (Full(semester), semester.toString)),
-        Full(Empty),
+        (Empty, "") +: allSemesters.toList.map(semester => (Full(semester), semester.toString)),
+        Full(groupDetails.semester:Box[Semester]),
         (selectedSemester: Box[Semester]) => semester = selectedSemester
       )
     }
 
     def stationSubjectSelect = {
       SHtml.selectObj(
-        allStationSubjects.toList.map(subject => (Full(subject), subject.toString)),
-        Full(Empty),
+        (Empty, "") +: allStationSubjects.toList.map(subject => (Full(subject), subject.toString)),
+        Full(groupDetails.stationSubject:Box[StationSubject]),
         (selectedSubject: Box[StationSubject]) => stationSubject = selectedSubject
       )
     }
