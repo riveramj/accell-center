@@ -21,7 +21,7 @@ object Tutors {
 class Tutors extends Loggable {
 
   def list = {
-    val tutors = Tutor.findAll
+    val tutors = Tutor.findAll.sortBy(tutor => (tutor.lastName, tutor.firstName))
 
     def deleteTutor(tutorId: ObjectId): JsCmd = {
       Tutor.find(tutorId).map(_.delete)
